@@ -8,11 +8,6 @@ import { Animes } from '../api/animes.js';
 import Anime from './Anime.jsx';
 import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 
-// React stuff
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
-// /React stuff
-
 // App component - represents the whole app
 class App extends Component {
   constructor(props) {
@@ -55,16 +50,15 @@ class App extends Component {
       <Anime key={anime._id} anime={anime} />
     ));
   }
-
+  // <AppBar
+  //   title="Anime List"
+  //   iconClassNameRight="muidocs-icon-navigation-expand-more"
+  // />
   render() {
     return (
-      <MuiThemeProvider>
         <div className="container">
-          <AppBar
-            title="Anime List"
-            iconClassNameRight="muidocs-icon-navigation-expand-more"
-          />
           <header>
+            <h1>Lista de animes</h1>
             <h3>
               Vistos: {this.props.incompleteCount}
               <label className="hide-completed">
@@ -95,7 +89,6 @@ class App extends Component {
             {this.renderAnimes()}
           </ul>
         </div>
-      </MuiThemeProvider>
     );
   }
 }

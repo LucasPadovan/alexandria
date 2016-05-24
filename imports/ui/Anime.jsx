@@ -1,8 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-import FlatButton from 'material-ui/FlatButton';
-import Checkbox from 'material-ui/Checkbox';
-
 import { Animes } from '../api/animes.js';
 
 // Anime component - represents a single todo item
@@ -25,13 +22,15 @@ export default class Anime extends Component {
 
     return (
       <li className={animeClassName}>
-        <FlatButton label="&times;" onClick={this.deleteThisAnime.bind(this)} />
-        <Checkbox
+        <button className="delete" onClick={this.deleteThisAnime.bind(this)}>
+          &times;
+        </button>
+        <input
+          type="checkbox"
           readOnly
           checked={this.props.anime.checked}
           onClick={this.toggleChecked.bind(this)}
         />
-
         <span className="text">
           <strong>{this.props.anime.username}</strong>: {this.props.anime.text}
         </span>
