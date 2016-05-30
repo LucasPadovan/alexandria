@@ -3,6 +3,18 @@ import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
+import {
+  Col,
+  ControlLabel,
+  FormGroup,
+  FormControl,
+  Grid,
+  ListGroup,
+  PageHeader,
+  Row,
+  Well,
+} from 'react-bootstrap';
+
 import { Animes } from '../api/animes.js';
 
 import Anime from './Anime.jsx';
@@ -22,7 +34,8 @@ class App extends Component {
     event.preventDefault();
 
     // Find the text field via the React ref
-    const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+    const animeNameInput = ReactDOM.findDOMNode(this.refs.animeName),
+          text = animeNameInput.value.trim();
 
     Animes.insert({
       text,
@@ -32,7 +45,7 @@ class App extends Component {
     });
 
     // Clear form
-    ReactDOM.findDOMNode(this.refs.textInput).value = '';
+    animeNameInput.value = '';
   }
 
   toggleHideCompleted() {
@@ -50,45 +63,60 @@ class App extends Component {
       <Anime key={anime._id} anime={anime} />
     ));
   }
-  // <AppBar
-  //   title="Anime List"
-  //   iconClassNameRight="muidocs-icon-navigation-expand-more"
-  // />
+
   render() {
+    var newAnimeForm;
+
+    if (this.props.currentUser) {
+      newAnimeForm = <Well>
+                       <form onSubmit={this.handleSubmit.bind(this)}>
+                         <FormGroup controlId="newAnimeForm">
+                           <ControlLabel>Nuevo Anime</ControlLabel>
+                           <FormControl
+                             type="text"
+                             ref="animeName"
+                             placeholder="Ingresa el nombre del anime"
+                           />
+                         </FormGroup>
+                       </form>
+                     </Well>;
+    }
+
+
     return (
-        <div className="container">
-          <header>
-            <h1>Lista de animes</h1>
-            <h3>
-              Vistos: {this.props.incompleteCount}
+      <div className="container">
+        <PageHeader>
+          Lista de animes
+        </PageHeader>
+
+        <Grid>
+          <Row>
+            <Col xs={12} md={5}>
+              <h4>Por ver: {this.props.incompleteCount}</h4>
+            </Col>
+            <Col xs={12} md={6}>
               <label className="hide-completed">
                 <input
                   type="checkbox"
                   readOnly
                   checked={this.state.hideCompleted}
                   onClick={this.toggleHideCompleted.bind(this)}
-                />
+                  />
                 Ocultar animes vistos
               </label>
-            </h3>
+            </Col>
+            <Col xs={12} md={1}>
+              <AccountsUIWrapper />
+            </Col>
+          </Row>
+        </Grid>
 
-            <AccountsUIWrapper />
+        {newAnimeForm}
 
-            { this.props.currentUser ?
-              <form className="new-anime" onSubmit={this.handleSubmit.bind(this)} >
-                <input
-                  type="text"
-                  ref="textInput"
-                  placeholder="Type to add new animes"
-                />
-              </form> : ''
-            }
-          </header>
-
-          <ul>
-            {this.renderAnimes()}
-          </ul>
-        </div>
+        <ListGroup>
+          {this.renderAnimes()}
+        </ListGroup>
+      </div>
     );
   }
 }

@@ -2,6 +2,12 @@ import React, { Component, PropTypes } from 'react';
 
 import { Animes } from '../api/animes.js';
 
+import {
+  Button,
+  ButtonGroup,
+  ListGroupItem,
+} from 'react-bootstrap';
+
 // Anime component - represents a single todo item
 export default class Anime extends Component {
   toggleChecked() {
@@ -21,21 +27,20 @@ export default class Anime extends Component {
     const animeClassName = this.props.anime.checked ? 'checked' : '';
 
     return (
-      <li className={animeClassName}>
-        <button className="delete" onClick={this.deleteThisAnime.bind(this)}>
-          &times;
-        </button>
-        <input
-          type="checkbox"
-          readOnly
-          checked={this.props.anime.checked}
-          onClick={this.toggleChecked.bind(this)}
-        />
-        <span className="text">
+      <ListGroupItem className={animeClassName}>
+        <ButtonGroup>
+          <Button bsStyle="danger" onClick={this.deleteThisAnime.bind(this)}>
+            &times;
+          </Button>
+          <Button onClick={this.toggleChecked.bind(this)}>
+            Visto
+          </Button>
+        </ButtonGroup>
+        <span className="l-pad-left-1">
           <strong>{this.props.anime.username}</strong>: {this.props.anime.text}
         </span>
 
-      </li>
+      </ListGroupItem>
     );
   }
 }
