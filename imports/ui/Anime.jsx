@@ -5,6 +5,7 @@ import { Animes } from '../api/animes.js';
 import {
   Button,
   ButtonGroup,
+  Glyphicon,
   ListGroupItem,
 } from 'react-bootstrap';
 
@@ -30,10 +31,10 @@ export default class Anime extends Component {
       <ListGroupItem className={animeClassName}>
         <ButtonGroup>
           <Button bsStyle="danger" onClick={this.deleteThisAnime.bind(this)}>
-            &times;
+            <Glyphicon glyph="remove" />
           </Button>
           <Button onClick={this.toggleChecked.bind(this)}>
-            Visto
+            <Glyphicon glyph="ok" />
           </Button>
         </ButtonGroup>
         <span className="l-pad-left-1">
