@@ -3,30 +3,43 @@ import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
+/**
+ * React section
+ */
 import {
   Col,
   ControlLabel,
   FormGroup,
   FormControl,
+  Glyphicon,
   Grid,
+  InputGroup,
   ListGroup,
   PageHeader,
   Row,
   Well,
 } from 'react-bootstrap';
 
+/**
+ * APIs section
+ */
 import { Animes } from '../api/animes.js';
 
+/**
+ * Views section
+ */
 import Anime from './Anime.jsx';
 import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 
 // App component - represents the whole app
+// try to use moment
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       hideCompleted: false,
+      startDate: Date.now()
     };
   }
 
@@ -48,6 +61,17 @@ class App extends Component {
     animeNameInput.value = '';
   }
 
+  handleDateChange(date) {
+    this.setState({
+      startDate: date
+    });
+  }
+
+  openDatepicker() {
+    debugger;
+    $('#datetimepicker10').datetimepicker('show');
+  }
+
   toggleHideCompleted() {
     this.setState({
       hideCompleted: !this.state.hideCompleted,
@@ -67,19 +91,46 @@ class App extends Component {
   render() {
     var newAnimeForm;
 
+    // placeholder={this.state.startDate}
+    // onChange={this.handleDateChange.bind(this)}
+    // onClick={this.openDatepicker.bind(this)}
+    // {
+    //   viewMode: 'years',
+    //   format: 'MM/YYYY'
+    // }
+    //
     if (this.props.currentUser) {
       newAnimeForm = <Well>
                        <form onSubmit={this.handleSubmit.bind(this)}>
-                         <FormGroup controlId="newAnimeForm">
-                           <ControlLabel>Nuevo Anime</ControlLabel>
+                         <FormGroup controlId="newAnimeName">
+                           <ControlLabel>Nombre del anime</ControlLabel>
                            <FormControl
                              type="text"
                              ref="animeName"
                              placeholder="Ingresa el nombre del anime"
                            />
                          </FormGroup>
+                         <FormGroup>
+
+                        </FormGroup>
+                         <FormGroup controlId="newAnimeYear">
+                           <ControlLabel>Año del anime</ControlLabel>
+                           <InputGroup className='date' id='datetimepicker10'>
+                             <FormControl
+                               type="text"
+                               ref="animeDate"
+                               onClick={this.openDatepicker.bind(this)}
+                             />
+                           <InputGroup.Addon>
+                             <Glyphicon glyph="calendar" />
+                           </InputGroup.Addon>
+                           </InputGroup>
+                         </FormGroup>
+
                        </form>
                      </Well>;
+
+      $('#datetimepicker10').datetimepicker();
     }
 
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
+import 'meteor/tsega:bootstrap3-datetimepicker';
 
 import '/public/css/react-bootstrap.css';
 
