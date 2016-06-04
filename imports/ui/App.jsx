@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
+import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+
 /**
  * React section
  */
@@ -39,7 +44,7 @@ class App extends Component {
 
     this.state = {
       hideCompleted: false,
-      startDate: Date.now()
+      startDate: moment()
     };
   }
 
@@ -67,14 +72,9 @@ class App extends Component {
     });
   }
 
-  openDatepicker() {
-    debugger;
-    $('#datetimepicker10').datetimepicker('show');
-  }
-
   toggleHideCompleted() {
     this.setState({
-      hideCompleted: !this.state.hideCompleted,
+      hideCompleted: !this.state.hideCompleted
     });
   }
 
@@ -91,14 +91,6 @@ class App extends Component {
   render() {
     var newAnimeForm;
 
-    // placeholder={this.state.startDate}
-    // onChange={this.handleDateChange.bind(this)}
-    // onClick={this.openDatepicker.bind(this)}
-    // {
-    //   viewMode: 'years',
-    //   format: 'MM/YYYY'
-    // }
-    //
     if (this.props.currentUser) {
       newAnimeForm = <Well>
                        <form onSubmit={this.handleSubmit.bind(this)}>
@@ -110,27 +102,16 @@ class App extends Component {
                              placeholder="Ingresa el nombre del anime"
                            />
                          </FormGroup>
-                         <FormGroup>
-
-                        </FormGroup>
                          <FormGroup controlId="newAnimeYear">
                            <ControlLabel>Año del anime</ControlLabel>
-                           <InputGroup className='date' id='datetimepicker10'>
-                             <FormControl
-                               type="text"
-                               ref="animeDate"
-                               onClick={this.openDatepicker.bind(this)}
-                             />
-                           <InputGroup.Addon>
-                             <Glyphicon glyph="calendar" />
-                           </InputGroup.Addon>
-                           </InputGroup>
+                           <DatePicker
+                             className="form-control"
+                             selected={this.state.startDate}
+                             onChange={this.handleDateChange.bind(this)} />
                          </FormGroup>
 
                        </form>
                      </Well>;
-
-      $('#datetimepicker10').datetimepicker();
     }
 
 
