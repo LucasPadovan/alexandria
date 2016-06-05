@@ -5,14 +5,16 @@ import { Animes } from '../api/animes.js';
 import {
   Button,
   ButtonGroup,
+  Col,
   Glyphicon,
+  Grid,
   ListGroupItem,
+  Row,
 } from 'react-bootstrap';
 
 // Anime component - represents a single todo item
 export default class Anime extends Component {
   toggleChecked() {
-    // Set the checked property to the opposite of its current value
     Animes.update(this.props.anime._id, {
       $set: { checked: !this.props.anime.checked },
     });
@@ -23,24 +25,39 @@ export default class Anime extends Component {
   }
 
   render() {
-    // Give animes a different className when they are checked off,
-    // so that we can style them nicely in CSS
     const animeClassName = this.props.anime.checked ? 'checked' : '';
 
     return (
       <ListGroupItem className={animeClassName}>
-        <ButtonGroup>
-          <Button bsStyle="danger" onClick={this.deleteThisAnime.bind(this)}>
-            <Glyphicon glyph="remove" />
-          </Button>
-          <Button onClick={this.toggleChecked.bind(this)}>
-            <Glyphicon glyph="ok" />
-          </Button>
-        </ButtonGroup>
-        <span className="l-pad-left-1">
-          <strong>{this.props.anime.username}</strong>: {this.props.anime.text}
-        </span>
-
+        <Grid>
+          <Row>
+            <Col xs={2} md={2}>
+              <ButtonGroup>
+                <Button bsStyle="danger" onClick={this.deleteThisAnime.bind(this)}>
+                  <Glyphicon glyph="remove" />
+                </Button>
+                <Button onClick={this.toggleChecked.bind(this)}>
+                  <Glyphicon glyph="ok" />
+                </Button>
+              </ButtonGroup>
+            </Col>
+            <Col xs={10} md={10}>
+              <h4 className="l-pad-left-1">
+                {this.props.anime.animeName}
+              </h4>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} md={12}>
+              <strong>Agregado por:</strong> {this.props.anime.username}
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} md={12}>
+              <strong>Inicio emisión:</strong> {this.props.anime.animeDate}
+            </Col>
+          </Row>
+        </Grid>
       </ListGroupItem>
     );
   }

@@ -12,6 +12,7 @@ import moment from 'moment';
  * React section
  */
 import {
+  Button,
   Col,
   ControlLabel,
   FormGroup,
@@ -51,19 +52,23 @@ class App extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    // Find the text field via the React ref
-    const animeNameInput = ReactDOM.findDOMNode(this.refs.animeName),
-          text = animeNameInput.value.trim();
+    // Find the text field via the React ref. TODO: create a loop for this.
+    const animeNameInput = ReactDOM.findDOMNode(this.refs.animeNameInput),
+          // animeDateInput = ReactDOM.findDOMNode(this.refs.animeDateInput), // datepicker component is not making a good ref setting. Hablar con el agustin sobre esto.
+          animeName = animeNameInput.value.trim(),
+          animeDate = this.state.startDate.format('DD/MM/YYYY');
 
     Animes.insert({
-      text,
-      createdAt: new Date(), // current time
-      owner: Meteor.userId(),           // _id of logged in user
-      username: Meteor.user().username,  // username of logged in user
+      animeName,
+      animeDate,
+      createdAt: new Date(),              // current time
+      owner: Meteor.userId(),             // _id of logged in user
+      username: Meteor.user().username,   // username of logged in user
     });
 
-    // Clear form
+    // Clear form. TODO: create a loop for this or a function.
     animeNameInput.value = '';
+    animeDate.value = moment();
   }
 
   handleDateChange(date) {
@@ -98,7 +103,7 @@ class App extends Component {
                            <ControlLabel>Nombre del anime</ControlLabel>
                            <FormControl
                              type="text"
-                             ref="animeName"
+                             ref="animeNameInput"
                              placeholder="Ingresa el nombre del anime"
                            />
                          </FormGroup>
@@ -106,10 +111,11 @@ class App extends Component {
                            <ControlLabel>Año del anime</ControlLabel>
                            <DatePicker
                              className="form-control"
+                             ref="animeDateInput"
                              selected={this.state.startDate}
                              onChange={this.handleDateChange.bind(this)} />
                          </FormGroup>
-
+                         <Button type="submit">Crear anime</Button>
                        </form>
                      </Well>;
     }
