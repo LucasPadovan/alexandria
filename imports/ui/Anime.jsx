@@ -43,7 +43,7 @@ export default class Anime extends Component {
             </Col>
             <Col xs={10} md={10}>
               <h4 className="l-pad-left-1">
-                {this.props.anime.animeName}
+                {this.props.anime.name}
               </h4>
             </Col>
           </Row>
@@ -54,7 +54,7 @@ export default class Anime extends Component {
           </Row>
           <Row>
             <Col xs={12} md={12}>
-              <strong>Inicio emisión:</strong> {this.props.anime.animeDate}
+              <strong>Inicio emisión:</strong> {this.props.anime.date}
             </Col>
           </Row>
         </Grid>

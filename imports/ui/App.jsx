@@ -55,12 +55,12 @@ class App extends Component {
     // Find the text field via the React ref. TODO: create a loop for this.
     const animeNameInput = ReactDOM.findDOMNode(this.refs.animeNameInput),
           // animeDateInput = ReactDOM.findDOMNode(this.refs.animeDateInput), // datepicker component is not making a good ref setting. Hablar con el agustin sobre esto.
-          animeName = animeNameInput.value.trim(),
-          animeDate = this.state.startDate.format('DD/MM/YYYY');
+          name = animeNameInput.value.trim(),
+          date = this.state.startDate.format('DD/MM/YYYY');
 
     Animes.insert({
-      animeName,
-      animeDate,
+      name,
+      date,
       createdAt: new Date(),              // current time
       owner: Meteor.userId(),             // _id of logged in user
       username: Meteor.user().username,   // username of logged in user
@@ -68,7 +68,7 @@ class App extends Component {
 
     // Clear form. TODO: create a loop for this or a function.
     animeNameInput.value = '';
-    animeDate.value = moment();
+    // animeDateInput.value = moment();
   }
 
   handleDateChange(date) {
