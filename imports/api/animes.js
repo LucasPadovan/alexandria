@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo';
 
 export const Animes = new Mongo.Collection('animes');
 
-animeSchema = new SimpleSchema({
+schema = new SimpleSchema({
   name: {
     type: String,
     label: 'Name',
@@ -14,12 +14,12 @@ animeSchema = new SimpleSchema({
     max: 200
   },
   createdAt: {
-    type: String,
+    type: Date,
     label: 'Created At',
     max: 200
   },
   owner: {
-    type: Number,
+    type: String,
     label: 'owner_id',
     max: 200
   },
@@ -30,4 +30,4 @@ animeSchema = new SimpleSchema({
   }
 });
 
-Animes.schema = animeSchema;
+Animes.schema = schema;

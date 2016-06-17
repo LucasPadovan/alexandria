@@ -1,6 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import '/public/css/react-bootstrap.css';
 import '/public/css/overrides.css';

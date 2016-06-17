@@ -56,19 +56,27 @@ class App extends Component {
     const animeNameInput = ReactDOM.findDOMNode(this.refs.animeNameInput),
           // animeDateInput = ReactDOM.findDOMNode(this.refs.animeDateInput), // datepicker component is not making a good ref setting. Hablar con el agustin sobre esto.
           name = animeNameInput.value.trim(),
-          date = this.state.startDate.format('DD/MM/YYYY');
+          date = this.state.startDate.format('DD/MM/YYYY'),
+          newAnime = {
+            name,
+            date,
+            createdAt: new Date(),              // current time
+            owner: Meteor.userId(),             // _id of logged in user
+            username: Meteor.user().username,   // username of logged in user
+          },
+          schema = Animes.schema,
+          isAValidObject = schema  .namedContext("newAnime").validate(newAnime);
 
-    Animes.insert({
-      name,
-      date,
-      createdAt: new Date(),              // current time
-      owner: Meteor.userId(),             // _id of logged in user
-      username: Meteor.user().username,   // username of logged in user
-    });
+    if (isAValidObject) {
+        Animes.insert(newAnime);
 
-    // Clear form. TODO: create a loop for this or a function.
-    animeNameInput.value = '';
-    // animeDateInput.value = moment();
+        // Clear form. TODO: create a loop for this or a function.
+        animeNameInput.value = '';
+        animeDateInput.value = moment();
+    } else {
+      //TODO: error handling
+    }
+
   }
 
   handleDateChange(date) {
