@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Animes } from '../api/animes.js';
+import { MediaContainers } from '../api/media_containers.js';
 
 import {
   Button,
@@ -12,49 +12,38 @@ import {
   Row,
 } from 'react-bootstrap';
 
-// Anime component
-export default class Anime extends Component {
-  toggleChecked() {
-    Animes.update(this.props.anime._id, {
-      $set: { checked: !this.props.anime.checked },
-    });
-  }
-
-  deleteThisAnime() {
-    Animes.remove(this.props.anime._id);
+// MediaContainer component
+export default class MediaContainer extends Component {
+  deleteThisMediaContainer() {
+    MediaContainers.remove(this.props.media_container._id);
   }
 
   render() {
-    const animeClassName = this.props.anime.checked ? 'checked' : '';
-
     return (
-      <ListGroupItem className={animeClassName}>
+      <ListGroupItem>
         <Grid>
           <Row>
             <Col xs={2} md={2}>
               <ButtonGroup>
-                <Button bsStyle="danger" onClick={this.deleteThisAnime.bind(this)}>
+                <Button bsStyle="danger" onClick={this.deleteThisMediaContainer.bind(this)}>
                   <Glyphicon glyph="remove" />
-                </Button>
-                <Button onClick={this.toggleChecked.bind(this)}>
-                  <Glyphicon glyph="ok" />
                 </Button>
               </ButtonGroup>
             </Col>
             <Col xs={10} md={10}>
               <h4 className="l-pad-left-1">
-                {this.props.anime.name}
+                {this.props.mediaContainer.container_type} - {this.props.mediaContainer.external_id}
               </h4>
             </Col>
           </Row>
           <Row>
             <Col xs={12} md={12}>
-              <strong>Agregado por:</strong> {this.props.anime.username}
+              <strong>Agregado por:</strong> {this.props.mediaContainer.username}
             </Col>
           </Row>
           <Row>
             <Col xs={12} md={12}>
-              <strong>Inicio emisión:</strong> {this.props.anime.date}
+              <strong>Capacidad</strong> {this.props.mediaContainer.capacity}
             </Col>
           </Row>
         </Grid>
@@ -63,8 +52,8 @@ export default class Anime extends Component {
   }
 }
 
-Anime.propTypes = {
+MediaContainer.propTypes = {
   // This component gets the anime to display through a React prop.
   // We can use propTypes to indicate it is required
-  anime: PropTypes.object.isRequired,
+  mediaContainer: PropTypes.object.isRequired,
 };

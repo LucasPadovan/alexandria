@@ -101,8 +101,13 @@ class App extends Component {
     ));
   }
 
+  renderMediaContainers() {
+
+  }
+
   render() {
-    var newAnimeForm;
+    var newAnimeForm,
+        newMediaContainerForm;
 
     if (this.props.currentUser) {
       newAnimeForm = <Well>
@@ -126,6 +131,28 @@ class App extends Component {
                          <Button type="submit">Crear anime</Button>
                        </form>
                      </Well>;
+
+      newMediaContainerForm = <Well>
+                                <form onSubmit={this.handleSubmit.bind(this)}>
+                                  <FormGroup controlId="newAnimeName">
+                                    <ControlLabel>Nombre del anime</ControlLabel>
+                                    <FormControl
+                                      type="text"
+                                      ref="animeNameInput"
+                                     placeholder="Ingresa el nombre del anime"
+                                    />
+                                  </FormGroup>
+                                   <FormGroup controlId="newAnimeYear">
+                                    <ControlLabel>Año del anime</ControlLabel>
+                                    <DatePicker
+                                      className="form-control"
+                                      ref="animeDateInput"
+                                      selected={this.state.startDate}
+                                      onChange={this.handleDateChange.bind(this)} />
+                                  </FormGroup>
+                                  <Button type="submit">Crear anime</Button>
+                                </form>
+                              </Well>;
     }
 
 
@@ -137,31 +164,60 @@ class App extends Component {
 
         <Grid>
           <Row>
-            <Col xs={12} md={5}>
-              <h4>Por ver: {this.props.incompleteCount}</h4>
+            /**
+             * Todo: sacar los l-mar-* de aca porque no sirven para pantallas chicas.
+             */
+            <Col xs={12} md={5} className="l-mar-right-1">
+              <Row>
+                <Col xs={12} md={5}>
+                  <h4>Por ver: {this.props.incompleteCount}</h4>
+                </Col>
+                <Col xs={12} md={5}>
+                  <label className="hide-completed">
+                    <input
+                      type="checkbox"
+                      readOnly
+                      checked={this.state.hideCompleted}
+                      onClick={this.toggleHideCompleted.bind(this)}
+                      />
+                    Ocultar animes vistos
+                  </label>
+                </Col>
+                <Col xs={12} md={2}>
+                  <AccountsUIWrapper />
+                </Col>
+              </Row>
+
+              <Row>
+                {newAnimeForm}
+              </Row>
+
+              <Row>
+                <ListGroup>
+                  {this.renderAnimes()}
+                </ListGroup>
+              </Row>
             </Col>
-            <Col xs={12} md={6}>
-              <label className="hide-completed">
-                <input
-                  type="checkbox"
-                  readOnly
-                  checked={this.state.hideCompleted}
-                  onClick={this.toggleHideCompleted.bind(this)}
-                  />
-                Ocultar animes vistos
-              </label>
-            </Col>
-            <Col xs={12} md={1}>
-              <AccountsUIWrapper />
+
+            <Col xs={12} md={5} className="l-mar-left-1">
+              <Row>
+                <h4>Carpetas</h4>
+              </Row>
+
+              <Row>
+                {newMediaContainerForm}
+              </Row>
+
+              <Row>
+                <ListGroup>
+                  {this.renderMediaContainers()}
+                </ListGroup>
+              </Row>
             </Col>
           </Row>
         </Grid>
 
-        {newAnimeForm}
 
-        <ListGroup>
-          {this.renderAnimes()}
-        </ListGroup>
       </div>
     );
   }
