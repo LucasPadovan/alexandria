@@ -101,7 +101,6 @@ class App extends Component {
           schema                 = MediaContainers.schema,
           isAValidObject         = schema.namedContext("newMediaContainer").validate(newMediaContainer);
 
-    debugger;
     if (isAValidObject) {
         MediaContainers.insert(newMediaContainer);
 
@@ -112,6 +111,10 @@ class App extends Component {
     } else {
       //TODO: error handling
     }
+  }
+
+  handleBatchSubmit() {
+
   }
 
   handleDateChange(date) {
@@ -128,12 +131,21 @@ class App extends Component {
 
   renderAnimes() {
     let filteredAnimes = this.props.animes;
+
     if (this.state.hideCompleted) {
       filteredAnimes = filteredAnimes.filter(anime => !anime.checked);
     }
     return filteredAnimes.map((anime) => (
       <Anime key={anime._id} anime={anime} />
     ));
+  }
+
+  renderAnimesAsOptions() {
+    let animes = this.props.animes;
+
+    return animes.map((anime) => (
+      <option value={anime._id}>{anime.name}</option>
+    ))
   }
 
   renderMediaContainers() {
@@ -144,9 +156,24 @@ class App extends Component {
     ));
   }
 
+  renderMediaContainersAsOptions() {
+    let mediaContainers = this.props.mediaContainers;
+
+    return mediaContainers.map((mediaContainer) => (
+      <option value={mediaContainer._id}>
+        {mediaContainer.container_type} - {mediaContainer.code}
+      </option>
+    ))
+  }
+
+  renderBatchs() {
+
+  }
+
   render() {
     var newAnimeForm,
-        newMediaContainerForm;
+        newMediaContainerForm,
+        newBatchForm;
 
     if (this.props.currentUser) {
       newAnimeForm = <Well>
@@ -203,6 +230,39 @@ class App extends Component {
                                   <Button type="submit">Crear contenedor</Button>
                                 </form>
                               </Well>;
+      newBatchForm = <Well>
+                       <form onSubmit={this.handleBatchSubmit.bind(this)}>
+                         <FormGroup controlId="newBatchAnime">
+                           <ControlLabel>Anime</ControlLabel>
+                           <FormControl
+                             componentClass="select"
+                             placeholder="Anime"
+                             ref="batchAnimeInput"
+                           >
+                             {this.renderAnimesAsOptions()}
+                           </FormControl>
+                         </FormGroup>
+                         <FormGroup controlId="newBatchMediaContainer">
+                           <ControlLabel>Contenedor</ControlLabel>
+                           <FormControl
+                             componentClass="select"
+                             placeholder="Contenedor"
+                             ref="batchAnimeInput"
+                           >
+                             {this.renderMediaContainersAsOptions()}
+                           </FormControl>
+                         </FormGroup>
+                         <FormGroup controlId="newBatchSize">
+                           <ControlLabel>Rango de capitulos</ControlLabel>
+                           <FormControl
+                             type="text"
+                             ref="batchSize"
+                             placeholder="Rango de capitulos"
+                           />
+                         </FormGroup>
+                         <Button type="submit">Crear batch</Button>
+                       </form>
+                     </Well>;
     }
 
 
@@ -249,15 +309,27 @@ class App extends Component {
               </Row>
             </Col>
 
-            <Col xs={12} md={5} className="l-mar-left-1">
+            <Col xs={12} md={3} className="l-mar-left-1">
+              <Row>
+                <h4>Batchs</h4>
+              </Row>
+              <Row>
+                {newBatchForm}
+              </Row>
+              <Row>
+                <ListGroup>
+                  {this.renderBatchs()}
+                </ListGroup>
+              </Row>
+            </Col>
+
+            <Col xs={12} md={3} className="l-mar-left-1">
               <Row>
                 <h4>Carpetas</h4>
               </Row>
-
               <Row>
                 {newMediaContainerForm}
               </Row>
-
               <Row>
                 <ListGroup>
                   {this.renderMediaContainers()}
