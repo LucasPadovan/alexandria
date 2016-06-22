@@ -32,18 +32,18 @@ export default class MediaContainer extends Component {
             </Col>
             <Col xs={10} md={10}>
               <h4 className="l-pad-left-1">
-                {this.props.mediaContainer.container_type} - {this.props.mediaContainer.external_id}
+                {this.props.mediaContainer.container_type} - {this.props.mediaContainer.code}
               </h4>
             </Col>
           </Row>
           <Row>
             <Col xs={12} md={12}>
-              <strong>Agregado por:</strong> {this.props.mediaContainer.username}
-            </Col>
-          </Row>
+              <strong>Capacidad</strong> {this.props.mediaContainer.capacity}
+              </Col>
+            </Row>
           <Row>
             <Col xs={12} md={12}>
-              <strong>Capacidad</strong> {this.props.mediaContainer.capacity}
+              <strong>Agregado por:</strong> {this.props.mediaContainer.username}
             </Col>
           </Row>
         </Grid>

@@ -30,11 +30,13 @@ import {
  * APIs section
  */
 import { Animes } from '../api/animes.js';
+import { MediaContainers } from '../api/media_containers.js';
 
 /**
  * Views section
  */
 import Anime from './Anime.jsx';
+import MediaContainer from './MediaContainer.jsx';
 import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 
 // App component - represents the whole app
@@ -49,7 +51,7 @@ class App extends Component {
     };
   }
 
-  handleSubmit(event) {
+  handleAnimeSubmit(event) {
     event.preventDefault();
 
     // Find the text field via the React ref. TODO: create a loop for this.
@@ -76,7 +78,40 @@ class App extends Component {
     } else {
       //TODO: error handling
     }
+  }
 
+  handleMediaContainerSubmit(event) {
+    event.preventDefault();
+
+    // Find the text field via the React ref. TODO: create a loop for this.
+    const containerTypeInput     = ReactDOM.findDOMNode(this.refs.containerTypeInput),
+          containerCodeInput     = ReactDOM.findDOMNode(this.refs.containerCodeInput),
+          containerCapacityInput = ReactDOM.findDOMNode(this.refs.containerCapacityInput),
+          container_type         = containerTypeInput.value.trim(),
+          code                   = containerCodeInput.value.trim(),
+          capacity               = containerCapacityInput.value.trim(),
+          newMediaContainer      = {
+            container_type,
+            code,
+            capacity,
+            createdAt: new Date(),              // current time
+            owner: Meteor.userId(),             // _id of logged in user
+            username: Meteor.user().username,   // username of logged in user
+          },
+          schema                 = MediaContainers.schema,
+          isAValidObject         = schema.namedContext("newMediaContainer").validate(newMediaContainer);
+
+    debugger;
+    if (isAValidObject) {
+        MediaContainers.insert(newMediaContainer);
+
+        // Clear form. TODO: create a loop for this or a function.
+        containerCapacityInput.value = '';
+        containerCodeInput.value     = '';
+        containerTypeInput.value     = '';
+    } else {
+      //TODO: error handling
+    }
   }
 
   handleDateChange(date) {
@@ -102,7 +137,11 @@ class App extends Component {
   }
 
   renderMediaContainers() {
+    let filteredMediaContainers = this.props.mediaContainers;
 
+    return filteredMediaContainers.map((mediaContainer) => (
+      <MediaContainer key={mediaContainer._id} mediaContainer={mediaContainer} />
+    ));
   }
 
   render() {
@@ -111,7 +150,7 @@ class App extends Component {
 
     if (this.props.currentUser) {
       newAnimeForm = <Well>
-                       <form onSubmit={this.handleSubmit.bind(this)}>
+                       <form onSubmit={this.handleAnimeSubmit.bind(this)}>
                          <FormGroup controlId="newAnimeName">
                            <ControlLabel>Nombre del anime</ControlLabel>
                            <FormControl
@@ -133,29 +172,43 @@ class App extends Component {
                      </Well>;
 
       newMediaContainerForm = <Well>
-                                <form onSubmit={this.handleSubmit.bind(this)}>
-                                  <FormGroup controlId="newAnimeName">
-                                    <ControlLabel>Nombre del anime</ControlLabel>
+                                <form onSubmit={this.handleMediaContainerSubmit.bind(this)}>
+                                  <FormGroup controlId="newContainerType">
+                                    <ControlLabel>Tipo de contenedor</ControlLabel>
+                                    <FormControl
+                                      componentClass="select"
+                                      placeholder="Tipo de contenedor"
+                                      ref="containerTypeInput"
+                                    >
+                                      <option value="Folder">Carpeta</option>
+                                      <option value="Disk">Disco</option>
+                                    </FormControl>
+                                  </FormGroup>
+                                  <FormGroup controlId="newContainerCode">
+                                    <ControlLabel>Codigo</ControlLabel>
                                     <FormControl
                                       type="text"
-                                      ref="animeNameInput"
-                                     placeholder="Ingresa el nombre del anime"
+                                      ref="containerCodeInput"
+                                      placeholder="Código del contenedor"
                                     />
                                   </FormGroup>
-                                   <FormGroup controlId="newAnimeYear">
-                                    <ControlLabel>Año del anime</ControlLabel>
-                                    <DatePicker
-                                      className="form-control"
-                                      ref="animeDateInput"
-                                      selected={this.state.startDate}
-                                      onChange={this.handleDateChange.bind(this)} />
+                                  <FormGroup controlId="newContainerCapacity">
+                                    <ControlLabel>Capacidad</ControlLabel>
+                                    <FormControl
+                                      type="text"
+                                      ref="containerCapacityInput"
+                                      placeholder="Capacidad del contenedor"
+                                    />
                                   </FormGroup>
-                                  <Button type="submit">Crear anime</Button>
+                                  <Button type="submit">Crear contenedor</Button>
                                 </form>
                               </Well>;
     }
 
 
+    /**
+    * Todo: sacar los l-mar-* de aca porque no sirven para pantallas chicas.
+    */
     return (
       <div className="container">
         <PageHeader>
@@ -164,9 +217,6 @@ class App extends Component {
 
         <Grid>
           <Row>
-            /**
-             * Todo: sacar los l-mar-* de aca porque no sirven para pantallas chicas.
-             */
             <Col xs={12} md={5} className="l-mar-right-1">
               <Row>
                 <Col xs={12} md={5}>
@@ -225,6 +275,7 @@ class App extends Component {
 
 App.propTypes = {
   animes: PropTypes.array.isRequired,
+  mediaContainers: PropTypes.array.isRequired,
   incompleteCount: PropTypes.number.isRequired,
   currentUser: PropTypes.object,
 };
@@ -232,6 +283,7 @@ App.propTypes = {
 export default createContainer(() => {
   return {
     animes: Animes.find({}, { sort: { createdAt: -1 } }).fetch(),
+    mediaContainers: MediaContainers.find({}, { sort: { createdAt: -1 } }).fetch(),
     incompleteCount: Animes.find({ checked: { $ne: true } }).count(),
     currentUser: Meteor.user(),
   };

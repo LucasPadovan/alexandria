@@ -8,7 +8,7 @@ schema = new SimpleSchema({
     label: 'Container Type',
     max: 200
   },
-  external_id: {
+  code: {
     type: String,
     label: 'External Identificator',
     max: 200
