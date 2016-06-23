@@ -1,12 +1,17 @@
 import { Mongo } from 'meteor/mongo';
 
-export const Animes = new Mongo.Collection('animes');
+export const Medias = new Mongo.Collection('medias');
 
 schema = new SimpleSchema({
   name: {
     type: String,
     label: 'Name',
     max: 200
+  },
+  mediaType: {
+      type: String,
+      label: 'Type',
+      max: 200
   },
   date: {
     type: String,
@@ -30,4 +35,4 @@ schema = new SimpleSchema({
   }
 });
 
-Animes.schema = schema;
+Medias.schema = schema;

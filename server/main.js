@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import '../imports/api/animes.js';
+import '../imports/api/medias.js';
 import '../imports/api/batchs.js';
 import '../imports/api/media_containers.js';
 

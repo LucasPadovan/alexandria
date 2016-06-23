@@ -3,9 +3,9 @@ import { Mongo } from 'meteor/mongo';
 export const Batchs = new Mongo.Collection('batchs');
 
 schema = new SimpleSchema({
-  anime_id: {
+  mediaId: {
     type: String,
-    label: 'Anime id',
+    label: 'Media id',
     max: 200
   },
   size: {
@@ -23,7 +23,7 @@ schema = new SimpleSchema({
     label: 'Fansub',
     max: 200
   },
-  media_container_id: {
+  mediaContainerId: {
     type: String,
     label: 'Media container id',
     max: 200

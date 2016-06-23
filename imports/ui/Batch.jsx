@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Animes } from '../api/animes.js';
+import { Medias } from '../api/medias.js';
 import { Batchs } from '../api/batchs.js';
 import { MediaContainers } from '../api/media_containers.js';
 
@@ -14,26 +14,26 @@ import {
   Row,
 } from 'react-bootstrap';
 
-// Anime component
+// Media component
 export default class Batch extends Component {
   delete() {
     Batchs.remove(this.props.batch._id);
   }
 
-  getAnimeName() {
-    const anime = Animes.find(
-      { _id: this.props.batch.anime_id }, {}
+  getMediaName() {
+    const media = Medias.find(
+      { _id: this.props.batch.mediaId }, {}
     ).fetch(),
-          returnValue = anime[0] ? anime[0].name : 'Anime no encontrado';
+          returnValue = media[0] ? media[0].name : 'Media no encontrado';
 
     return returnValue;
   }
 
   getMediaContainerName(){
     const mediaContainer = MediaContainers.find(
-      { _id: this.props.batch.media_container_id }, {}
+      { _id: this.props.batch.mediaContainerId }, {}
     ).fetch();
-    let returnValue = 'Contenedor no encontrado';
+    let returnValue = 'Carpeta no encontrado';
 
     if (!!mediaContainer[0]) {
       returnValue = mediaContainer[0].container_type + ' - ' + mediaContainer[0].code;
@@ -52,7 +52,7 @@ export default class Batch extends Component {
                 <Button bsStyle="danger" onClick={this.delete.bind(this)}>
                   <Glyphicon glyph="remove" />
                 </Button>
-                <span className="l-pad-left-1">{this.getAnimeName()}</span>
+                <span className="l-pad-left-1">{this.getMediaName()}</span>
               </h4>
             </Col>
           </Row>
@@ -73,7 +73,7 @@ export default class Batch extends Component {
           </Row>
           <Row>
             <Col xs={12} md={12}>
-              <strong>Contenedor:</strong> {this.getMediaContainerName()}
+              <strong>Carpeta:</strong> {this.getMediaContainerName()}
             </Col>
           </Row>
           <Row>

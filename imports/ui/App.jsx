@@ -29,14 +29,14 @@ import {
 /**
  * APIs section
  */
-import { Animes } from '../api/animes.js';
+import { Medias } from '../api/medias.js';
 import { Batchs } from '../api/batchs.js';
 import { MediaContainers } from '../api/media_containers.js';
 
 /**
  * Views section
  */
-import Anime from './Anime.jsx';
+import Media from './Media.jsx';
 import Batch from './Batch.jsx';
 import MediaContainer from './MediaContainer.jsx';
 import AccountsUIWrapper from './AccountsUIWrapper.jsx';
@@ -53,30 +53,32 @@ class App extends Component {
     };
   }
 
-  handleAnimeSubmit(event) {
+  handleMediaSubmit(event) {
     event.preventDefault();
 
     // Find the text field via the React ref. TODO: create a loop for this.
-    const animeNameInput = ReactDOM.findDOMNode(this.refs.animeNameInput),
-          // animeDateInput = ReactDOM.findDOMNode(this.refs.animeDateInput), // datepicker component is not making a good ref setting. Hablar con el agustin sobre esto.
-          name = animeNameInput.value.trim(),
+    const mediaNameInput = ReactDOM.findDOMNode(this.refs.mediaNameInput),
+          mediaTypeInput = ReactDOM.findDOMNode(this.refs.mediaTypeInput),
+          name = mediaNameInput.value.trim(),
+          mediaType = mediaTypeInput.value.trim(),
           date = this.state.startDate.format('DD/MM/YYYY'),
-          newAnime = {
+          newMedia = {
             name,
+            mediaType,
             date,
             createdAt: new Date(),              // current time
             owner: Meteor.userId(),             // _id of logged in user
             username: Meteor.user().username,   // username of logged in user
           },
-          schema = Animes.schema,
-          isAValidObject = schema  .namedContext("newAnime").validate(newAnime);
+          schema = Medias.schema,
+          isAValidObject = schema  .namedContext("newMedia").validate(newMedia);
 
     if (isAValidObject) {
-        Animes.insert(newAnime);
+        Medias.insert(newMedia);
 
         // Clear form. TODO: create a loop for this or a function.
-        animeNameInput.value = '';
-        animeDateInput.value = moment();
+        mediaNameInput.value = '';
+        // mediaDateInput.value = moment();
     } else {
       //TODO: error handling
     }
@@ -109,7 +111,6 @@ class App extends Component {
         // Clear form. TODO: create a loop for this or a function.
         containerCapacityInput.value = '';
         containerCodeInput.value     = '';
-        containerTypeInput.value     = '';
     } else {
       //TODO: error handling
     }
@@ -119,24 +120,24 @@ class App extends Component {
     event.preventDefault();
 
     // Find the text field via the React ref. TODO: create a loop for this.
-    const animeIdInput       = ReactDOM.findDOMNode(this.refs.batchAnimeInput),
+    const mediaIdInput       = ReactDOM.findDOMNode(this.refs.batchMediaInput),
           sizeInput          = ReactDOM.findDOMNode(this.refs.batchSizeInput),
           qualityInput       = ReactDOM.findDOMNode(this.refs.batchQualityInput),
           fansubInput        = ReactDOM.findDOMNode(this.refs.batchFansubInput),
           mContainerIdInput  = ReactDOM.findDOMNode(this.refs.batchMediaContainerInput),
           routeInput         = ReactDOM.findDOMNode(this.refs.batchRouteInput),
-          anime_id           = animeIdInput.value.trim(),
+          mediaId           = mediaIdInput.value.trim(),
           size               = sizeInput.value.trim(),
           quality            = qualityInput.value.trim(),
           fansub             = fansubInput.value.trim(),
-          media_container_id = mContainerIdInput.value.trim(),
+          mediaContainerId = mContainerIdInput.value.trim(),
           route              = routeInput.value.trim(),
           newBatch           = {
-            anime_id,
+            mediaId,
             size,
             quality,
             fansub,
-            media_container_id,
+            mediaContainerId,
             route,
             createdAt: new Date(),
             owner: Meteor.userId(),
@@ -149,11 +150,9 @@ class App extends Component {
         Batchs.insert(newBatch);
 
         // Clear form. TODO: create a loop for this or a function.
-        animeIdInput.value = '';
         sizeInput.value = '';
         qualityInput.value = '';
         fansubInput.value = '';
-        mContainerIdInput.value = '';
         routeInput.value = '';
     } else {
       //TODO: error handling
@@ -172,22 +171,22 @@ class App extends Component {
     });
   }
 
-  renderAnimes() {
-    let filteredAnimes = this.props.animes;
+  renderMedias() {
+    let filteredMedias = this.props.medias;
 
     if (this.state.hideCompleted) {
-      filteredAnimes = filteredAnimes.filter(anime => !anime.checked);
+      filteredMedias = filteredMedias.filter(media => !media.checked);
     }
-    return filteredAnimes.map((anime) => (
-      <Anime key={anime._id} anime={anime} />
+    return filteredMedias.map((media) => (
+      <Media key={media._id} media={media} />
     ));
   }
 
-  renderAnimesAsOptions() {
-    let animes = this.props.animes;
+  renderMediasAsOptions() {
+    let medias = this.props.medias;
 
-    return animes.map((anime) => (
-      <option value={anime._id}>{anime.name}</option>
+    return medias.map((media) => (
+      <option value={media._id}>{media.name}</option>
     ))
   }
 
@@ -218,51 +217,66 @@ class App extends Component {
   }
 
   render() {
-    var newAnimeForm,
+    var newMediaForm,
         newMediaContainerForm,
         newBatchForm;
 
     if (this.props.currentUser) {
-      newAnimeForm = <Well>
-                       <form onSubmit={this.handleAnimeSubmit.bind(this)}>
-                         <FormGroup controlId="newAnimeName">
-                           <ControlLabel>Nombre del anime</ControlLabel>
+      newMediaForm = <Well>
+                       <form onSubmit={this.handleMediaSubmit.bind(this)}>
+                         <FormGroup controlId="newMediaName">
+                           <ControlLabel>Nombre del item</ControlLabel>
                            <FormControl
-                             placeholder="Ingresa el nombre del anime"
-                             ref="animeNameInput"
+                             placeholder="Ingresa el nombre del item"
+                             ref="mediaNameInput"
                              type="text"
                            />
                          </FormGroup>
-                         <FormGroup controlId="newAnimeYear">
-                           <ControlLabel>Año del anime</ControlLabel>
+                         <FormGroup controlId="newMediaType">
+                           <ControlLabel>Tipo de media</ControlLabel>
+                           <FormControl
+                             componentClass="select"
+                             placeholder="Tipo de media"
+                             ref="mediaTypeInput"
+                           >
+                             <option value="Anime">Anime</option>
+                             <option value="Comic">Comic</option>
+                             <option value="Juego">Juego</option>
+                             <option value="Manga">Manga</option>
+                             <option value="Pelicula">Pelicula</option>
+                             <option value="Serie">Serie</option>
+                           </FormControl>
+                         </FormGroup>
+                         <FormGroup controlId="newMediaYear">
+                           <ControlLabel>Año del media</ControlLabel>
                            <DatePicker
                              className="form-control"
                              onChange={this.handleDateChange.bind(this)}
-                             ref="animeDateInput"
+                             ref="mediaDateInput"
                              selected={this.state.startDate}
                            />
                          </FormGroup>
-                         <Button type="submit">Crear anime</Button>
+                         <Button type="submit">Crear media</Button>
                        </form>
                      </Well>;
 
       newMediaContainerForm = <Well>
                                 <form onSubmit={this.handleMediaContainerSubmit.bind(this)}>
                                   <FormGroup controlId="newContainerType">
-                                    <ControlLabel>Tipo de contenedor</ControlLabel>
+                                    <ControlLabel>Tipo de carpeta</ControlLabel>
                                     <FormControl
                                       componentClass="select"
-                                      placeholder="Tipo de contenedor"
+                                      placeholder="Tipo de carpeta"
                                       ref="containerTypeInput"
                                     >
-                                      <option value="Folder">Carpeta</option>
-                                      <option value="Disk">Disco</option>
+                                      <option value="Carpeta">Carpeta</option>
+                                      <option value="Disco">Disco</option>
                                     </FormControl>
                                   </FormGroup>
                                   <FormGroup controlId="newContainerCode">
                                     <ControlLabel>Codigo</ControlLabel>
                                     <FormControl
-                                      placeholder="Código del contenedor"
+                                      placeholder="Código de carpeta"
                                       ref="containerCodeInput"
                                       type="text"
                                     />
@@ -270,25 +284,25 @@ class App extends Component {
                                   <FormGroup controlId="newContainerCapacity">
                                     <ControlLabel>Capacidad</ControlLabel>
                                     <FormControl
-                                      placeholder="Capacidad del contenedor"
+                                      placeholder="Capacidad de carpeta"
                                       ref="containerCapacityInput"
                                       type="text"
                                     />
                                   </FormGroup>
-                                  <Button type="submit">Crear contenedor</Button>
+                                  <Button type="submit">Crear carpeta</Button>
                                 </form>
                               </Well>;
 
       newBatchForm = <Well>
                        <form onSubmit={this.handleBatchSubmit.bind(this)}>
-                         <FormGroup controlId="newBatchAnime">
-                           <ControlLabel>Anime</ControlLabel>
+                         <FormGroup controlId="newBatchMedia">
+                           <ControlLabel>Media</ControlLabel>
                            <FormControl
                              componentClass="select"
-                             placeholder="Anime"
-                             ref="batchAnimeInput"
+                             placeholder="Media"
+                             ref="batchMediaInput"
                            >
-                             {this.renderAnimesAsOptions()}
+                             {this.renderMediasAsOptions()}
                            </FormControl>
                          </FormGroup>
                          <FormGroup controlId="newBatchSize">
@@ -296,6 +310,14 @@ class App extends Component {
                            <FormControl
                              placeholder="Rango de capitulos"
                              ref="batchSizeInput"
+                             type="text"
+                             />
+                         </FormGroup>
+                         <FormGroup controlId="newBatchRoute">
+                           <ControlLabel>Ruta</ControlLabel>
+                           <FormControl
+                             placeholder="Ubicacion"
+                             ref="batchRouteInput"
                              type="text"
                              />
                          </FormGroup>
@@ -316,22 +338,14 @@ class App extends Component {
                              />
                          </FormGroup>
                          <FormGroup controlId="newBatchMediaContainer">
-                           <ControlLabel>Contenedor</ControlLabel>
+                           <ControlLabel>Carpeta</ControlLabel>
                            <FormControl
                              componentClass="select"
-                             placeholder="Contenedor"
+                             placeholder="Carpeta"
                              ref="batchMediaContainerInput"
                            >
                              {this.renderMediaContainersAsOptions()}
                            </FormControl>
-                         </FormGroup>
-                         <FormGroup controlId="newBatchRoute">
-                           <ControlLabel>Fansub</ControlLabel>
-                           <FormControl
-                             placeholder="Ubicacion"
-                             ref="batchRouteInput"
-                             type="text"
-                             />
                          </FormGroup>
                          <Button type="submit">Crear batch</Button>
                        </form>
@@ -344,7 +358,7 @@ class App extends Component {
     return (
       <div className="container">
         <PageHeader>
-          Lista de animes
+          Colección personal
         </PageHeader>
 
         <Grid>
@@ -362,7 +376,7 @@ class App extends Component {
                       checked={this.state.hideCompleted}
                       onClick={this.toggleHideCompleted.bind(this)}
                       />
-                    Ocultar animes vistos
+                    Ocultar medias vistos
                   </label>
                 </Col>
                 <Col xs={12} md={2}>
@@ -371,12 +385,12 @@ class App extends Component {
               </Row>
 
               <Row>
-                {newAnimeForm}
+                {newMediaForm}
               </Row>
 
               <Row>
                 <ListGroup>
-                  {this.renderAnimes()}
+                  {this.renderMedias()}
                 </ListGroup>
               </Row>
             </Col>
@@ -417,7 +431,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  animes: PropTypes.array.isRequired,
+  medias: PropTypes.array.isRequired,
   batchs: PropTypes.array.isRequired,
   mediaContainers: PropTypes.array.isRequired,
   incompleteCount: PropTypes.number.isRequired,
@@ -426,10 +440,10 @@ App.propTypes = {
 
 export default createContainer(() => {
   return {
-    animes: Animes.find({}, { sort: { createdAt: -1 } }).fetch(),
+    medias: Medias.find({}, { sort: { createdAt: -1 } }).fetch(),
     batchs: Batchs.find({}, { sort: { createdAt: -1 } }).fetch(),
     mediaContainers: MediaContainers.find({}, { sort: { createdAt: -1 } }).fetch(),
-    incompleteCount: Animes.find({ checked: { $ne: true } }).count(),
+    incompleteCount: Medias.find({ checked: { $ne: true } }).count(),
     currentUser: Meteor.user(),
   };
 }, App);

@@ -15,7 +15,7 @@ import {
 // MediaContainer component
 export default class MediaContainer extends Component {
   delete() {
-    MediaContainers.remove(this.props.media_container._id);
+    MediaContainers.remove(this.props.mediaContainer._id);
   }
 
   render() {
@@ -36,13 +36,8 @@ export default class MediaContainer extends Component {
           </Row>
           <Row>
             <Col xs={12} md={12}>
-              <strong>Capacidad</strong> {this.props.mediaContainer.capacity}
+              <strong>Capacidad:</strong> {this.props.mediaContainer.capacity}
               </Col>
-            </Row>
-          <Row>
-            <Col xs={12} md={12}>
-              <strong>Agregado por:</strong> {this.props.mediaContainer.username}
-            </Col>
           </Row>
         </Grid>
       </ListGroupItem>
