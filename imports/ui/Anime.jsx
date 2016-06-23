@@ -20,7 +20,7 @@ export default class Anime extends Component {
     });
   }
 
-  deleteThisAnime() {
+  delete() {
     Animes.remove(this.props.anime._id);
   }
 
@@ -31,19 +31,17 @@ export default class Anime extends Component {
       <ListGroupItem className={animeClassName}>
         <Grid>
           <Row>
-            <Col xs={2} md={2}>
-              <ButtonGroup>
-                <Button bsStyle="danger" onClick={this.deleteThisAnime.bind(this)}>
-                  <Glyphicon glyph="remove" />
-                </Button>
-                <Button onClick={this.toggleChecked.bind(this)}>
-                  <Glyphicon glyph="ok" />
-                </Button>
-              </ButtonGroup>
-            </Col>
-            <Col xs={10} md={10}>
-              <h4 className="l-pad-left-1">
-                {this.props.anime.name}
+            <Col xs={12} md={12}>
+              <h4>
+                <ButtonGroup>
+                  <Button bsStyle="danger" onClick={this.delete.bind(this)}>
+                    <Glyphicon glyph="remove" />
+                  </Button>
+                  <Button onClick={this.toggleChecked.bind(this)}>
+                    <Glyphicon glyph="ok" />
+                  </Button>
+                </ButtonGroup>
+                <span className="l-pad-left-1">{this.props.anime.name}</span>
               </h4>
             </Col>
           </Row>
@@ -64,7 +62,5 @@ export default class Anime extends Component {
 }
 
 Anime.propTypes = {
-  // This component gets the anime to display through a React prop.
-  // We can use propTypes to indicate it is required
   anime: PropTypes.object.isRequired,
 };

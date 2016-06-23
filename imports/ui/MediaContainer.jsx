@@ -14,7 +14,7 @@ import {
 
 // MediaContainer component
 export default class MediaContainer extends Component {
-  deleteThisMediaContainer() {
+  delete() {
     MediaContainers.remove(this.props.media_container._id);
   }
 
@@ -23,16 +23,14 @@ export default class MediaContainer extends Component {
       <ListGroupItem>
         <Grid>
           <Row>
-            <Col xs={2} md={2}>
-              <ButtonGroup>
-                <Button bsStyle="danger" onClick={this.deleteThisMediaContainer.bind(this)}>
+            <Col xs={12} md={12}>
+              <h4>
+                <Button bsStyle="danger" onClick={this.delete.bind(this)}>
                   <Glyphicon glyph="remove" />
                 </Button>
-              </ButtonGroup>
-            </Col>
-            <Col xs={10} md={10}>
-              <h4 className="l-pad-left-1">
-                {this.props.mediaContainer.container_type} - {this.props.mediaContainer.code}
+                <span className="l-pad-left-1">
+                  {this.props.mediaContainer.container_type} - {this.props.mediaContainer.code}
+                </span>
               </h4>
             </Col>
           </Row>
@@ -53,7 +51,5 @@ export default class MediaContainer extends Component {
 }
 
 MediaContainer.propTypes = {
-  // This component gets the anime to display through a React prop.
-  // We can use propTypes to indicate it is required
   mediaContainer: PropTypes.object.isRequired,
 };

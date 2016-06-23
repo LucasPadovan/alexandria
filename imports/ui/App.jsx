@@ -30,12 +30,14 @@ import {
  * APIs section
  */
 import { Animes } from '../api/animes.js';
+import { Batchs } from '../api/batchs.js';
 import { MediaContainers } from '../api/media_containers.js';
 
 /**
  * Views section
  */
 import Anime from './Anime.jsx';
+import Batch from './Batch.jsx';
 import MediaContainer from './MediaContainer.jsx';
 import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 
@@ -113,8 +115,49 @@ class App extends Component {
     }
   }
 
-  handleBatchSubmit() {
+  handleBatchSubmit(event) {
+    event.preventDefault();
 
+    // Find the text field via the React ref. TODO: create a loop for this.
+    const animeIdInput       = ReactDOM.findDOMNode(this.refs.batchAnimeInput),
+          sizeInput          = ReactDOM.findDOMNode(this.refs.batchSizeInput),
+          qualityInput       = ReactDOM.findDOMNode(this.refs.batchQualityInput),
+          fansubInput        = ReactDOM.findDOMNode(this.refs.batchFansubInput),
+          mContainerIdInput  = ReactDOM.findDOMNode(this.refs.batchMediaContainerInput),
+          routeInput         = ReactDOM.findDOMNode(this.refs.batchRouteInput),
+          anime_id           = animeIdInput.value.trim(),
+          size               = sizeInput.value.trim(),
+          quality            = qualityInput.value.trim(),
+          fansub             = fansubInput.value.trim(),
+          media_container_id = mContainerIdInput.value.trim(),
+          route              = routeInput.value.trim(),
+          newBatch           = {
+            anime_id,
+            size,
+            quality,
+            fansub,
+            media_container_id,
+            route,
+            createdAt: new Date(),
+            owner: Meteor.userId(),
+            username: Meteor.user().username,
+          },
+          schema             = Batchs.schema,
+          isAValidObject     = schema.namedContext("newBatch").validate(newBatch);
+
+    if (isAValidObject) {
+        Batchs.insert(newBatch);
+
+        // Clear form. TODO: create a loop for this or a function.
+        animeIdInput.value = '';
+        sizeInput.value = '';
+        qualityInput.value = '';
+        fansubInput.value = '';
+        mContainerIdInput.value = '';
+        routeInput.value = '';
+    } else {
+      //TODO: error handling
+    }
   }
 
   handleDateChange(date) {
@@ -167,7 +210,11 @@ class App extends Component {
   }
 
   renderBatchs() {
+    let filteredBatchs = this.props.batchs;
 
+    return filteredBatchs.map((batch) => (
+      <Batch key={batch._id} batch={batch} />
+    ));
   }
 
   render() {
@@ -181,18 +228,19 @@ class App extends Component {
                          <FormGroup controlId="newAnimeName">
                            <ControlLabel>Nombre del anime</ControlLabel>
                            <FormControl
-                             type="text"
-                             ref="animeNameInput"
                              placeholder="Ingresa el nombre del anime"
+                             ref="animeNameInput"
+                             type="text"
                            />
                          </FormGroup>
                          <FormGroup controlId="newAnimeYear">
                            <ControlLabel>Año del anime</ControlLabel>
                            <DatePicker
                              className="form-control"
+                             onChange={this.handleDateChange.bind(this)}
                              ref="animeDateInput"
                              selected={this.state.startDate}
-                             onChange={this.handleDateChange.bind(this)} />
+                           />
                          </FormGroup>
                          <Button type="submit">Crear anime</Button>
                        </form>
@@ -214,22 +262,23 @@ class App extends Component {
                                   <FormGroup controlId="newContainerCode">
                                     <ControlLabel>Codigo</ControlLabel>
                                     <FormControl
-                                      type="text"
-                                      ref="containerCodeInput"
                                       placeholder="Código del contenedor"
+                                      ref="containerCodeInput"
+                                      type="text"
                                     />
                                   </FormGroup>
                                   <FormGroup controlId="newContainerCapacity">
                                     <ControlLabel>Capacidad</ControlLabel>
                                     <FormControl
-                                      type="text"
-                                      ref="containerCapacityInput"
                                       placeholder="Capacidad del contenedor"
+                                      ref="containerCapacityInput"
+                                      type="text"
                                     />
                                   </FormGroup>
                                   <Button type="submit">Crear contenedor</Button>
                                 </form>
                               </Well>;
+
       newBatchForm = <Well>
                        <form onSubmit={this.handleBatchSubmit.bind(this)}>
                          <FormGroup controlId="newBatchAnime">
@@ -242,29 +291,52 @@ class App extends Component {
                              {this.renderAnimesAsOptions()}
                            </FormControl>
                          </FormGroup>
+                         <FormGroup controlId="newBatchSize">
+                           <ControlLabel>Rango de capitulos</ControlLabel>
+                           <FormControl
+                             placeholder="Rango de capitulos"
+                             ref="batchSizeInput"
+                             type="text"
+                             />
+                         </FormGroup>
+                         <FormGroup controlId="newBatchQuality">
+                           <ControlLabel>Calidad</ControlLabel>
+                           <FormControl
+                             placeholder="Calidad"
+                             ref="batchQualityInput"
+                             type="text"
+                             />
+                         </FormGroup>
+                         <FormGroup controlId="newBatchFansub">
+                           <ControlLabel>Fansub</ControlLabel>
+                           <FormControl
+                             placeholder="Fansub"
+                             ref="batchFansubInput"
+                             type="text"
+                             />
+                         </FormGroup>
                          <FormGroup controlId="newBatchMediaContainer">
                            <ControlLabel>Contenedor</ControlLabel>
                            <FormControl
                              componentClass="select"
                              placeholder="Contenedor"
-                             ref="batchAnimeInput"
+                             ref="batchMediaContainerInput"
                            >
                              {this.renderMediaContainersAsOptions()}
                            </FormControl>
                          </FormGroup>
-                         <FormGroup controlId="newBatchSize">
-                           <ControlLabel>Rango de capitulos</ControlLabel>
+                         <FormGroup controlId="newBatchRoute">
+                           <ControlLabel>Fansub</ControlLabel>
                            <FormControl
+                             placeholder="Ubicacion"
+                             ref="batchRouteInput"
                              type="text"
-                             ref="batchSize"
-                             placeholder="Rango de capitulos"
-                           />
+                             />
                          </FormGroup>
                          <Button type="submit">Crear batch</Button>
                        </form>
                      </Well>;
     }
-
 
     /**
     * Todo: sacar los l-mar-* de aca porque no sirven para pantallas chicas.
@@ -339,7 +411,6 @@ class App extends Component {
           </Row>
         </Grid>
 
-
       </div>
     );
   }
@@ -347,6 +418,7 @@ class App extends Component {
 
 App.propTypes = {
   animes: PropTypes.array.isRequired,
+  batchs: PropTypes.array.isRequired,
   mediaContainers: PropTypes.array.isRequired,
   incompleteCount: PropTypes.number.isRequired,
   currentUser: PropTypes.object,
@@ -355,6 +427,7 @@ App.propTypes = {
 export default createContainer(() => {
   return {
     animes: Animes.find({}, { sort: { createdAt: -1 } }).fetch(),
+    batchs: Batchs.find({}, { sort: { createdAt: -1 } }).fetch(),
     mediaContainers: MediaContainers.find({}, { sort: { createdAt: -1 } }).fetch(),
     incompleteCount: Animes.find({ checked: { $ne: true } }).count(),
     currentUser: Meteor.user(),
