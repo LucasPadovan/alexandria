@@ -42,7 +42,6 @@ import MediaContainer from './MediaContainer.jsx';
 import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 
 // App component - represents the whole app
-// try to use moment
 class App extends Component {
   constructor(props) {
     super(props);
@@ -243,6 +242,7 @@ class App extends Component {
                              <option value="Comic">Comic</option>
                              <option value="Juego">Juego</option>
                              <option value="Manga">Manga</option>
+                             <option value="Musica">Música</option>
                              <option value="Pelicula">Pelicula</option>
                              <option value="Serie">Serie</option>
                            </FormControl>
@@ -402,11 +402,6 @@ class App extends Component {
               <Row>
                 {newBatchForm}
               </Row>
-              <Row>
-                <ListGroup>
-                  {this.renderBatchs()}
-                </ListGroup>
-              </Row>
             </Col>
 
             <Col xs={12} md={3} className="l-mar-left-1">
@@ -440,9 +435,9 @@ App.propTypes = {
 
 export default createContainer(() => {
   return {
-    medias: Medias.find({}, { sort: { createdAt: -1 } }).fetch(),
+    medias: Medias.find({}, { sort: { name: 1 } }).fetch(),
     batchs: Batchs.find({}, { sort: { createdAt: -1 } }).fetch(),
-    mediaContainers: MediaContainers.find({}, { sort: { createdAt: -1 } }).fetch(),
+    mediaContainers: MediaContainers.find({}, { sort: { code: 1 } }).fetch(),
     incompleteCount: Medias.find({ checked: { $ne: true } }).count(),
     currentUser: Meteor.user(),
   };

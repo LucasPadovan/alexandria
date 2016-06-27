@@ -67,3 +67,9 @@
 .l-mar-right-2 { margin-right: 20px; }
 .l-mar-right-3 { margin-right: 30px; }
 .l-mar-right-4 { margin-right: 40px; }
+
+.move-right-0 { position: absolute; right: 0px; }
+.move-right-1 { position: absolute; right: 10px; }
+.move-right-2 { position: absolute; right: 20px; }
+.move-right-3 { position: absolute; right: 30px; }
+.move-right-4 { position: absolute; right: 40px; }

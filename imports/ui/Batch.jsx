@@ -20,6 +20,13 @@ export default class Batch extends Component {
     Batchs.remove(this.props.batch._id);
   }
 
+  // Emergency method until update is available
+  setFirstFolder() {
+    Batchs.update(this.props.batch._id, {
+      $set: { mediaContainerId: '12P7e8x2YjmzMFQJjS' }
+    })
+  }
+
   getMediaName() {
     const media = Medias.find(
       { _id: this.props.batch.mediaId }, {}
@@ -42,46 +49,89 @@ export default class Batch extends Component {
     return returnValue;
   }
 
+  selectiveRender(comesFromMedia) {
+    let returnFunction;
+
+    if (comesFromMedia) {
+      returnFunction = this.renderForMedia();
+    } else {
+      returnFunction = this.renderForMediaContainer();
+    }
+
+    return returnFunction;
+  }
+
+  renderForMedia() {
+    let batch = <span>
+                  <Row>
+                    <Col xs={12} md={12}>
+                      <strong>Rango de episodios:</strong> {this.props.batch.size}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={12} md={12}>
+                      <strong>Calidad:</strong> {this.props.batch.quality}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={12} md={12}>
+                      <strong>Fansub:</strong> {this.props.batch.fansub}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={12} md={12}>
+                      <strong>Carpeta:</strong> {this.getMediaContainerName()}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={12} md={12}>
+                       <strong>Ubicacion:</strong> {this.props.batch.route}
+                    </Col>
+                  </Row>
+                </span>;
+
+    return batch;
+  }
+
+  renderForMediaContainer() {
+    let batch = <span>
+                  <Row>
+                    <Col xs={12} md={12}>
+                      <strong>Media:</strong> {this.getMediaName()}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={12} md={12}>
+                      <strong>Rango de episodios:</strong> {this.props.batch.size}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={12} md={12}>
+                      <strong>Calidad:</strong> {this.props.batch.quality}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={12} md={12}>
+                      <strong>Fansub:</strong> {this.props.batch.fansub}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={12} md={12}>
+                       <strong>Ubicacion:</strong> {this.props.batch.route}
+                    </Col>
+                  </Row>
+                </span>;
+
+    return batch;
+  }
+
   render() {
     return (
-      <ListGroupItem>
-        <Grid>
-          <Row>
-            <Col xs={12} md={12}>
-              <h4>
-                <Button bsStyle="danger" onClick={this.delete.bind(this)}>
-                  <Glyphicon glyph="remove" />
-                </Button>
-                <span className="l-pad-left-1">{this.getMediaName()}</span>
-              </h4>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12} md={12}>
-              <strong>Rango de episodios:</strong> {this.props.batch.size}
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12} md={12}>
-              <strong>Calidad:</strong> {this.props.batch.quality}
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12} md={12}>
-              <strong>Fansub:</strong> {this.props.batch.fansub}
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12} md={12}>
-              <strong>Carpeta:</strong> {this.getMediaContainerName()}
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12} md={12}>
-              <strong>Ubicación:</strong> {this.props.batch.route}
-            </Col>
-          </Row>
-        </Grid>
+      <ListGroupItem className="l-mar-left-1 l-mar-right-1">
+        <Button bsStyle="danger" bsSize="xsmall" className="move-right-1" onClick={this.delete.bind(this)}>
+          <Glyphicon glyph="remove" />
+        </Button>
+        {this.selectiveRender(this.props.origin == 'media')}
       </ListGroupItem>
     );
   }
