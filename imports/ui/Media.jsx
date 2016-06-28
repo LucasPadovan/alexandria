@@ -18,9 +18,25 @@ import {
 
 // Media component
 export default class Media extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      batchState: 'hide'
+    };
+  }
+
   toggleChecked() {
     Medias.update(this.props.media._id, {
       $set: { checked: !this.props.media.checked },
+    });
+  }
+
+  showBatchs() {
+    let newState = this.state.batchState ? '' : 'hide';
+
+    this.setState({
+      batchState: newState
     });
   }
 
@@ -54,6 +70,9 @@ export default class Media extends Component {
                 <Button onClick={this.toggleChecked.bind(this)}>
                   <Glyphicon glyph="ok" />
                 </Button>
+                <Button onClick={this.showBatchs.bind(this)}>
+                  <Glyphicon glyph="arrow-down" />
+                </Button>
               </ButtonGroup>
               <span className="l-pad-left-1">{this.props.media.name}</span>
             </h4>
@@ -69,7 +88,7 @@ export default class Media extends Component {
             <strong>Inicio emisión:</strong> {this.props.media.date}
           </Col>
         </Row>
-        <Row>
+        <Row className={ this.state.batchState }>
           <ListGroup>
             {this.renderBatchs()}
           </ListGroup>
