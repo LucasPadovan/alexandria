@@ -62,22 +62,26 @@ export default class Batch extends Component {
   }
 
   renderForMedia() {
-    let batch = <span>
+    let batch = (<span>
                   <Row>
                     <Col xs={12} md={12}>
                       <strong>Rango de episodios:</strong> {this.props.batch.size}
                     </Col>
                   </Row>
-                  <Row>
-                    <Col xs={12} md={12}>
-                      <strong>Calidad:</strong> {this.props.batch.quality}
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col xs={12} md={12}>
-                      <strong>Fansub:</strong> {this.props.batch.fansub}
-                    </Col>
-                  </Row>
+                  {this.props.batch.quality && (
+                      <Row>
+                        <Col xs={12} md={12}>
+                          <strong>Calidad:</strong> {this.props.batch.quality}
+                        </Col>
+                      </Row>
+                  )}
+                  {this.props.batch.fansub && (
+                    <Row>
+                      <Col xs={12} md={12}>
+                        <strong>Fansub:</strong> {this.props.batch.fansub}
+                      </Col>
+                    </Row>
+                  )}
                   <Row>
                     <Col xs={12} md={12}>
                       <strong>Carpeta:</strong> {this.getMediaContainerName()}
@@ -88,13 +92,13 @@ export default class Batch extends Component {
                        <strong>Ubicacion:</strong> {this.props.batch.route}
                     </Col>
                   </Row>
-                </span>;
+                </span>);
 
     return batch;
   }
 
   renderForMediaContainer() {
-    let batch = <span>
+    let batch = (<span>
                   <Row>
                     <Col xs={12} md={12}>
                       <strong>Media:</strong> {this.getMediaName()}
@@ -105,22 +109,26 @@ export default class Batch extends Component {
                       <strong>Rango de episodios:</strong> {this.props.batch.size}
                     </Col>
                   </Row>
-                  <Row>
-                    <Col xs={12} md={12}>
-                      <strong>Calidad:</strong> {this.props.batch.quality}
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col xs={12} md={12}>
-                      <strong>Fansub:</strong> {this.props.batch.fansub}
-                    </Col>
-                  </Row>
+                  { this.props.batch.quality && (
+                      <Row>
+                        <Col xs={12} md={12}>
+                          <strong>Calidad:</strong> {this.props.batch.quality}
+                        </Col>
+                      </Row>
+                  )}
+                  { this.props.batch.fansub && (
+                    <Row>
+                      <Col xs={12} md={12}>
+                        <strong>Fansub:</strong> {this.props.batch.fansub}
+                      </Col>
+                    </Row>
+                  )}
                   <Row>
                     <Col xs={12} md={12}>
                        <strong>Ubicacion:</strong> {this.props.batch.route}
                     </Col>
                   </Row>
-                </span>;
+                </span>);
 
     return batch;
   }
@@ -128,7 +136,7 @@ export default class Batch extends Component {
   render() {
     return (
       <ListGroupItem className="l-mar-left-1 l-mar-right-1">
-        <Button bsStyle="danger" bsSize="xsmall" className="move-right-1" onClick={this.delete.bind(this)}>
+        <Button bsStyle="danger" bsSize="xsmall" className="move-right-1 z-index-1" onClick={this.delete.bind(this)}>
           <Glyphicon glyph="remove" />
         </Button>
         {this.selectiveRender(this.props.origin == 'media')}

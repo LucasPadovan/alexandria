@@ -150,9 +150,9 @@ class App extends Component {
 
         // Clear form. TODO: create a loop for this or a function.
         sizeInput.value = '';
-        qualityInput.value = '';
+        // qualityInput.value = '';
         fansubInput.value = '';
-        routeInput.value = '';
+        // routeInput.value = '';
     } else {
       //TODO: error handling
     }

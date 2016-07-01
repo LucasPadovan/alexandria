@@ -18,8 +18,24 @@ import {
 
 // MediaContainer component
 export default class MediaContainer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      batchState: 'hide'
+    };
+  }
+
   delete() {
     MediaContainers.remove(this.props.mediaContainer._id);
+  }
+
+  showBatchs() {
+    let newState = this.state.batchState ? '' : 'hide';
+
+    this.setState({
+      batchState: newState
+    });
   }
 
   renderBatchs() {
@@ -39,9 +55,14 @@ export default class MediaContainer extends Component {
         <Row>
           <Col xs={12} md={12}>
             <h4>
-              <Button bsStyle="danger" onClick={this.delete.bind(this)}>
-                <Glyphicon glyph="remove" />
-              </Button>
+              <ButtonGroup>
+                <Button bsStyle="danger" onClick={this.delete.bind(this)}>
+                  <Glyphicon glyph="remove" />
+                </Button>
+                <Button onClick={this.showBatchs.bind(this)}>
+                  <Glyphicon glyph="arrow-down" />
+                </Button>
+              </ButtonGroup>
               <span className="l-pad-left-1">
                 {this.props.mediaContainer.container_type} - {this.props.mediaContainer.code}
               </span>
@@ -53,7 +74,7 @@ export default class MediaContainer extends Component {
             <strong>Capacidad:</strong> {this.props.mediaContainer.capacity}
             </Col>
         </Row>
-        <Row>
+        <Row className={ this.state.batchState }>
           <ListGroup>
             {this.renderBatchs()}
           </ListGroup>
