@@ -1,6 +1,11 @@
 {
-  "name": "alexandria",
+  "name": "alexandrialibrary",
   "private": true,
+  "version": "0.0.1",
+  "engines": {
+    "node": "6.2.x",
+    "npm": "3.8.x"
+  },
   "scripts": {
     "start": "meteor run"
   },
