@@ -7,7 +7,8 @@
     "npm": "3.8.x"
   },
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "postinstall": "npm install"
   },
   "dependencies": {
     "meteor-node-stubs": "~0.2.0",
@@ -17,6 +18,7 @@
     "react-bootstrap": "^0.29.4",
     "react-datepicker": "^0.27.0",
     "react-dom": "^15.0.2",
-    "react-router": "^2.6.1"
+    "react-router": "2.6.1",
+    "react-tap-event-plugin": "1.0.0"
   }
 }
