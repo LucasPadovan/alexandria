@@ -3,12 +3,11 @@
   "private": true,
   "version": "0.0.1",
   "engines": {
-    "node": "6.2.x",
-    "npm": "3.8.x"
+    "node": "4.x"
   },
   "scripts": {
     "start": "meteor run",
-    "postinstall": "npm install"
+    "postinstall": "node install npm && meteor npm install"
   },
   "dependencies": {
     "meteor-node-stubs": "~0.2.0",
