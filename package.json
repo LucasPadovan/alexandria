@@ -1,13 +1,12 @@
 {
   "name": "alexandrialibrary",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": "4.x"
   },
   "scripts": {
-    "start": "meteor run",
-    "postinstall": "node install npm && meteor npm install"
+    "start": "meteor run"
   },
   "dependencies": {
     "meteor-node-stubs": "~0.2.0",
