@@ -39,7 +39,6 @@ import { MediaContainers } from '../api/media_containers.js';
 import { Navigation } from './components/navigation.jsx';
 import Media from './Media.jsx';
 import Batch from './Batch.jsx';
-import Backup from './Backup.jsx';
 import MediaContainer from './MediaContainer.jsx';
 import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 
@@ -361,7 +360,6 @@ class Application extends Component {
       <div className="container">
         <PageHeader>
           Colección personal
-          <Backup />
         </PageHeader>
 
         <Grid>
