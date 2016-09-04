@@ -9,7 +9,6 @@ import {
   ButtonGroup,
   Col,
   Glyphicon,
-  Grid,
   ListGroupItem,
   Row,
 } from 'react-bootstrap';
