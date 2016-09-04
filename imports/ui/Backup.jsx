@@ -1511,12 +1511,16 @@ export default class Backup extends Component {
         medias = this.getMedias(),
         mediaContainers = this.getMediaContainers();
 
-    for(var i=0, mediaContainerBackup; mediaContainerBackup = mediaContainers[i]; i++) {
-      this.insertMediaContainer(mediaContainerBackup);
-    }
+    // for(var i=0, mediaContainerBackup; mediaContainerBackup = mediaContainers[i]; i++) {
+    //   this.insertMediaContainer(mediaContainerBackup);
+    // }
+    //
+    // for(var i=0, mediaBackup; mediaBackup = medias[i]; i++) {
+    //   this.insertMedia(mediaBackup);
+    // }
 
-    for(var i=0, mediaBackup; mediaBackup = medias[i]; i++) {
-      this.insertMedia(mediaBackup);
+    for(var i=0, batchBackup; batchBackup = batchs[i]; i++) {
+      this.insertBatch(batchBackup);
     }
 
   }
