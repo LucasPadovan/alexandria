@@ -1,0 +1,29 @@
+[
+  {
+    "_id": "4P7e8x2YjmzMFQJjS",
+    "container_type": "Carpeta",
+    "code": "1",
+    "capacity": "80 discos",
+    "createdAt": "2016-06-23T02:44:25.622Z",
+    "owner": "cFDfySDSjzhNR9z5Y",
+    "username": "Lucas"
+  },
+  {
+    "_id": "7LZeo4JntrYLjuu7u",
+    "container_type": "Carpeta",
+    "code": "2",
+    "capacity": "80 discos",
+    "createdAt": "2016-06-23T02:54:09.998Z",
+    "owner": "cFDfySDSjzhNR9z5Y",
+    "username": "Lucas"
+  },
+  {
+    "_id": "JucSr9kGN6S6rF9aw",
+    "container_type": "Carpeta",
+    "code": "3",
+    "capacity": "80",
+    "createdAt": "2016-06-26T18:40:21.139Z",
+    "owner": "cFDfySDSjzhNR9z5Y",
+    "username": "Lucas"
+  }
+]
