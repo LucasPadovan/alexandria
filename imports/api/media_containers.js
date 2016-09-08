@@ -3,10 +3,6 @@ import { Mongo } from 'meteor/mongo';
 export const MediaContainers = new Mongo.Collection('media_containers');
 
 schema = new SimpleSchema({
-  _id: {
-    type: String,
-    max: 200
-  },
   container_type: {
     type: String,
     label: 'Container Type',
