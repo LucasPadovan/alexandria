@@ -42,6 +42,11 @@ import Batch from './Batch.jsx';
 import MediaContainer from './MediaContainer.jsx';
 import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 
+/**
+ * Security section
+ */
+import { Permissions } from '../startup/permissions.js';
+
 // Application component - represents the whole app
 class Application extends Component {
   constructor(props) {
@@ -178,7 +183,7 @@ class Application extends Component {
       filteredMedias = filteredMedias.filter(media => !media.checked);
     }
     return filteredMedias.map((media) => (
-      <Media key={media._id} media={media} />
+      <Media key={media._id} media={media} currentUser={this.props.currentUser} />
     ));
   }
 
@@ -194,7 +199,7 @@ class Application extends Component {
     let filteredMediaContainers = this.props.mediaContainers;
 
     return filteredMediaContainers.map((mediaContainer) => (
-      <MediaContainer key={mediaContainer._id} mediaContainer={mediaContainer} />
+      <MediaContainer key={mediaContainer._id} mediaContainer={mediaContainer} currentUser={this.props.currentUser} />
     ));
   }
 
@@ -216,141 +221,155 @@ class Application extends Component {
     ));
   }
 
+  /**
+   * Security methods
+   */
+  userCanEdit() {
+    return this.props.currentUser && Permissions.manage.includes(this.props.currentUser.username);
+  }
+
   render() {
     var newMediaForm,
         newMediaContainerForm,
         newBatchForm;
 
-    if (this.props.currentUser) {
-      newMediaForm = <Well>
-                       <form onSubmit={this.handleMediaSubmit.bind(this)}>
-                         <FormGroup controlId="newMediaName">
-                           <ControlLabel>Nombre del item</ControlLabel>
-                           <FormControl
-                             placeholder="Ingresa el nombre del item"
-                             ref="mediaNameInput"
-                             type="text"
-                           />
-                         </FormGroup>
-                         <FormGroup controlId="newMediaType">
-                           <ControlLabel>Tipo de media</ControlLabel>
-                           <FormControl
-                             componentClass="select"
-                             placeholder="Tipo de media"
-                             ref="mediaTypeInput"
-                           >
-                             <option value="Anime">Anime</option>
-                             <option value="Comic">Comic</option>
-                             <option value="Juego">Juego</option>
-                             <option value="Manga">Manga</option>
-                             <option value="Musica">Música</option>
-                             <option value="Pelicula">Pelicula</option>
-                             <option value="Serie">Serie</option>
-                           </FormControl>
-                         </FormGroup>
-                         <FormGroup controlId="newMediaYear">
-                           <ControlLabel>Año del media</ControlLabel>
-                           <DatePicker
-                             className="form-control"
-                             onChange={this.handleDateChange.bind(this)}
-                             ref="mediaDateInput"
-                             selected={this.state.startDate}
-                           />
-                         </FormGroup>
-                         <Button type="submit">Crear media</Button>
-                       </form>
-                     </Well>;
+    // TODO: permissions function separated
+    if (this.userCanEdit()) {
+      newMediaForm = (
+        <Well>
+          <form onSubmit={this.handleMediaSubmit.bind(this)}>
+           <FormGroup controlId="newMediaName">
+             <ControlLabel>Nombre del item</ControlLabel>
+             <FormControl
+               placeholder="Ingresa el nombre del item"
+               ref="mediaNameInput"
+               type="text"
+             />
+           </FormGroup>
+           <FormGroup controlId="newMediaType">
+             <ControlLabel>Tipo de media</ControlLabel>
+             <FormControl
+               componentClass="select"
+               placeholder="Tipo de media"
+               ref="mediaTypeInput"
+             >
+               <option value="Anime">Anime</option>
+               <option value="Comic">Comic</option>
+               <option value="Juego">Juego</option>
+               <option value="Manga">Manga</option>
+               <option value="Musica">Música</option>
+               <option value="Pelicula">Pelicula</option>
+               <option value="Serie">Serie</option>
+             </FormControl>
+           </FormGroup>
+           <FormGroup controlId="newMediaYear">
+             <ControlLabel>Año del media</ControlLabel>
+             <DatePicker
+               className="form-control"
+               onChange={this.handleDateChange.bind(this)}
+               ref="mediaDateInput"
+               selected={this.state.startDate}
+             />
+           </FormGroup>
+           <Button type="submit">Crear media</Button>
+          </form>
+        </Well>
+      );
 
-      newMediaContainerForm = <Well>
-                                <form onSubmit={this.handleMediaContainerSubmit.bind(this)}>
-                                  <FormGroup controlId="newContainerType">
-                                    <ControlLabel>Tipo de carpeta</ControlLabel>
-                                    <FormControl
-                                      componentClass="select"
-                                      placeholder="Tipo de carpeta"
-                                      ref="containerTypeInput"
-                                    >
-                                      <option value="Carpeta">Carpeta</option>
-                                      <option value="Disco">Disco</option>
-                                    </FormControl>
-                                  </FormGroup>
-                                  <FormGroup controlId="newContainerCode">
-                                    <ControlLabel>Codigo</ControlLabel>
-                                    <FormControl
-                                      placeholder="Código de carpeta"
-                                      ref="containerCodeInput"
-                                      type="text"
-                                    />
-                                  </FormGroup>
-                                  <FormGroup controlId="newContainerCapacity">
-                                    <ControlLabel>Capacidad</ControlLabel>
-                                    <FormControl
-                                      placeholder="Capacidad de carpeta"
-                                      ref="containerCapacityInput"
-                                      type="text"
-                                    />
-                                  </FormGroup>
-                                  <Button type="submit">Crear carpeta</Button>
-                                </form>
-                              </Well>;
+      newMediaContainerForm = (
+        <Well>
+          <form onSubmit={this.handleMediaContainerSubmit.bind(this)}>
+            <FormGroup controlId="newContainerType">
+              <ControlLabel>Tipo de carpeta</ControlLabel>
+              <FormControl
+                componentClass="select"
+                placeholder="Tipo de carpeta"
+                ref="containerTypeInput"
+              >
+                <option value="Carpeta">Carpeta</option>
+                <option value="Disco">Disco</option>
+              </FormControl>
+            </FormGroup>
+            <FormGroup controlId="newContainerCode">
+              <ControlLabel>Codigo</ControlLabel>
+              <FormControl
+                placeholder="Código de carpeta"
+                ref="containerCodeInput"
+                type="text"
+              />
+            </FormGroup>
+            <FormGroup controlId="newContainerCapacity">
+              <ControlLabel>Capacidad</ControlLabel>
+              <FormControl
+                placeholder="Capacidad de carpeta"
+                ref="containerCapacityInput"
+                type="text"
+              />
+            </FormGroup>
+            <Button type="submit">Crear carpeta</Button>
+          </form>
+        </Well>
+      );
 
-      newBatchForm = <Well>
-                       <form onSubmit={this.handleBatchSubmit.bind(this)}>
-                         <FormGroup controlId="newBatchMedia">
-                           <ControlLabel>Media</ControlLabel>
-                           <FormControl
-                             componentClass="select"
-                             placeholder="Media"
-                             ref="batchMediaInput"
-                           >
-                             {this.renderMediasAsOptions()}
-                           </FormControl>
-                         </FormGroup>
-                         <FormGroup controlId="newBatchSize">
-                           <ControlLabel>Rango de capitulos</ControlLabel>
-                           <FormControl
-                             placeholder="Rango de capitulos"
-                             ref="batchSizeInput"
-                             type="text"
-                             />
-                         </FormGroup>
-                         <FormGroup controlId="newBatchRoute">
-                           <ControlLabel>Ruta</ControlLabel>
-                           <FormControl
-                             placeholder="Ubicacion"
-                             ref="batchRouteInput"
-                             type="text"
-                             />
-                         </FormGroup>
-                         <FormGroup controlId="newBatchQuality">
-                           <ControlLabel>Calidad</ControlLabel>
-                           <FormControl
-                             placeholder="Calidad"
-                             ref="batchQualityInput"
-                             type="text"
-                             />
-                         </FormGroup>
-                         <FormGroup controlId="newBatchFansub">
-                           <ControlLabel>Fansub</ControlLabel>
-                           <FormControl
-                             placeholder="Fansub"
-                             ref="batchFansubInput"
-                             type="text"
-                             />
-                         </FormGroup>
-                         <FormGroup controlId="newBatchMediaContainer">
-                           <ControlLabel>Carpeta</ControlLabel>
-                           <FormControl
-                             componentClass="select"
-                             placeholder="Carpeta"
-                             ref="batchMediaContainerInput"
-                           >
-                             {this.renderMediaContainersAsOptions()}
-                           </FormControl>
-                         </FormGroup>
-                         <Button type="submit">Crear batch</Button>
-                       </form>
-                     </Well>;
+      newBatchForm = (
+        <Well>
+          <form onSubmit={this.handleBatchSubmit.bind(this)}>
+           <FormGroup controlId="newBatchMedia">
+             <ControlLabel>Media</ControlLabel>
+             <FormControl
+               componentClass="select"
+               placeholder="Media"
+               ref="batchMediaInput"
+             >
+               {this.renderMediasAsOptions()}
+             </FormControl>
+           </FormGroup>
+           <FormGroup controlId="newBatchSize">
+             <ControlLabel>Rango de capitulos</ControlLabel>
+             <FormControl
+               placeholder="Rango de capitulos"
+               ref="batchSizeInput"
+               type="text"
+               />
+           </FormGroup>
+           <FormGroup controlId="newBatchRoute">
+             <ControlLabel>Ruta</ControlLabel>
+             <FormControl
+               placeholder="Ubicacion"
+               ref="batchRouteInput"
+               type="text"
+               />
+           </FormGroup>
+           <FormGroup controlId="newBatchQuality">
+             <ControlLabel>Calidad</ControlLabel>
+             <FormControl
+               placeholder="Calidad"
+               ref="batchQualityInput"
+               type="text"
+               />
+           </FormGroup>
+           <FormGroup controlId="newBatchFansub">
+             <ControlLabel>Fansub</ControlLabel>
+             <FormControl
+               placeholder="Fansub"
+               ref="batchFansubInput"
+               type="text"
+               />
+           </FormGroup>
+           <FormGroup controlId="newBatchMediaContainer">
+             <ControlLabel>Carpeta</ControlLabel>
+             <FormControl
+               componentClass="select"
+               placeholder="Carpeta"
+               ref="batchMediaContainerInput"
+             >
+               {this.renderMediaContainersAsOptions()}
+             </FormControl>
+           </FormGroup>
+           <Button type="submit">Crear batch</Button>
+          </form>
+        </Well>
+      );
     }
 
     /**
@@ -395,15 +414,16 @@ class Application extends Component {
                 </ListGroup>
               </Row>
             </Col>
-
-            <Col xs={12} md={3} className="l-mar-left-1">
-              <Row>
-                <h4>Batchs</h4>
-              </Row>
-              <Row>
-                {newBatchForm}
-              </Row>
-            </Col>
+            { this.userCanEdit() &&
+              <Col xs={12} md={3} className="l-mar-left-1">
+                <Row>
+                  <h4>Batchs</h4>
+                </Row>
+                <Row>
+                  {newBatchForm}
+                </Row>
+              </Col>
+            }
 
             <Col xs={12} md={3} className="l-mar-left-1">
               <Row>
