@@ -13,6 +13,11 @@ import {
   Row,
 } from 'react-bootstrap';
 
+/**
+ * Security section
+ */
+import { Permissions } from '../startup/permissions.js';
+
 // Media component
 export default class Batch extends Component {
   delete() {
@@ -132,12 +137,21 @@ export default class Batch extends Component {
     return batch;
   }
 
+  /**
+   * Security methods
+   */
+  userCanEdit() {
+    return this.props.currentUser && Permissions.manage.includes(this.props.currentUser.username);
+  }
+
   render() {
     return (
       <ListGroupItem className="l-mar-left-1 l-mar-right-1">
-        <Button bsStyle="danger" bsSize="xsmall" className="move-right-1 z-index-1" onClick={this.delete.bind(this)}>
-          <Glyphicon glyph="remove" />
-        </Button>
+        { this.userCanEdit() && (
+          <Button bsStyle="danger" bsSize="xsmall" className="move-right-1 z-index-1" onClick={this.delete.bind(this)}>
+            <Glyphicon glyph="remove" />
+          </Button>
+        )}
         {this.selectiveRender(this.props.origin == 'media')}
       </ListGroupItem>
     );

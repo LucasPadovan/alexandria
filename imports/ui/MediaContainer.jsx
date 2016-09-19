@@ -16,6 +16,11 @@ import {
   Row,
 } from 'react-bootstrap';
 
+/**
+ * Security section
+ */
+import { Permissions } from '../startup/permissions.js';
+
 // MediaContainer component
 export default class MediaContainer extends Component {
   constructor(props) {
@@ -45,8 +50,15 @@ export default class MediaContainer extends Component {
     ).fetch();
 
     return filteredBatchs.map((batch) => (
-      <Batch key={batch._id} batch={batch} origin='mediaContainer'/>
+      <Batch key={batch._id} batch={batch} origin='mediaContainer' currentUser={this.props.currentUser} />
     ));
+  }
+
+  /**
+   * Security methods
+   */
+  userCanEdit() {
+    return this.props.currentUser && Permissions.manage.includes(this.props.currentUser.username);
   }
 
   render() {
@@ -56,9 +68,11 @@ export default class MediaContainer extends Component {
           <Col xs={12} md={12}>
             <h4>
               <ButtonGroup>
-                <Button bsStyle="danger" onClick={this.delete.bind(this)}>
-                  <Glyphicon glyph="remove" />
-                </Button>
+                {this.userCanEdit() &&
+                  <Button bsStyle="danger" onClick={this.delete.bind(this)}>
+                    <Glyphicon glyph="remove" />
+                  </Button>
+                }
                 <Button onClick={this.showBatchs.bind(this)}>
                   <Glyphicon glyph="arrow-down" />
                 </Button>
