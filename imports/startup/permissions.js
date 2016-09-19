@@ -1,3 +1,3 @@
 export const Permissions = {
-  manage: ['Lucass']
+  manage: ['Lucas']
 }
