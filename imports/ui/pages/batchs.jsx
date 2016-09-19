@@ -1,3 +1,7 @@
 import React from 'react';
 
-export const Batchs = () => <h3>Batchs</h3>;
+export const Batchs = () => (
+  <div>
+    <h3>Batchs</h3>
+  </div>
+);

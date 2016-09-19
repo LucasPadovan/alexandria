@@ -1,3 +1,7 @@
 import React from 'react';
 
-export const MediaContainers = () => <h3>Carpetas</h3>;
+export const MediaContainers = () => (
+  <div>
+    <h3>Carpetas</h3>
+  </div>
+);
