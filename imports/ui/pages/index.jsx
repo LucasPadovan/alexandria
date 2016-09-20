@@ -1,8 +1,10 @@
 import React from 'react';
-import { Application } from '../Application.jsx';
+
+import { MediaList } from '../components/medias/List.jsx';
+
 
 export const Index = () => (
   <div>
-    <h3>Index</h3>
+    <MediaList />
   </div>
 );

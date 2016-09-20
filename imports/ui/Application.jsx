@@ -9,7 +9,7 @@ import moment from 'moment';
 
 
 /**
- * React section
+ * React-bootstrap section
  */
 import {
   Button,
@@ -36,7 +36,7 @@ import { MediaContainers } from '../api/media_containers.js';
 /**
  * Views section
  */
-import { Navigation } from './components/navigation.jsx';
+// import { Navigation } from './components/navigation.jsx';
 import Media from './Media.jsx';
 import Batch from './Batch.jsx';
 import MediaContainer from './MediaContainer.jsx';

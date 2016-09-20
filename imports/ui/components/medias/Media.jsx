@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 
-import Batch from './Batch.jsx';
+import Batch from '../../Batch.jsx';
 
-import { Medias } from '../api/medias.js';
-import { Batchs } from '../api/batchs.js';
+import { Medias } from '../../../api/medias.js';
+import { Batchs } from '../../../api/batchs.js';
 
 import {
   Button,
@@ -19,7 +19,7 @@ import {
 /**
  * Security section
  */
-import { Permissions } from '../startup/permissions.js';
+import { Permissions } from '../../../startup/permissions.js';
 
 // Media component
 export default class Media extends Component {

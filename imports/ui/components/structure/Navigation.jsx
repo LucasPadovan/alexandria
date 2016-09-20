@@ -2,7 +2,7 @@ import React from 'react';
 import { IndexLink, Link } from 'react-router';
 
 /**
- * React section
+ * React-bootstrap section
  */
 import {
   Nav,

@@ -1,12 +1,30 @@
 import React from 'react';
 
-// Components imports
-import { Header } from '../components/header.jsx';
+/**
+ * React-bootstrap section
+ */
+import {
+  Col,
+  Glyphicon,
+  Grid,
+  Row,
+  Well,
+} from 'react-bootstrap';
+
+/**
+ * Components section
+ */
+import { Header } from '../components/structure/Header.jsx';
+
 
 export const App = ( { children } ) => (
   <div>
     <Header />
 
-    { children }
+    <Grid>
+      <Row>
+        { children }
+      </Row>
+    </Grid>
   </div>
 )

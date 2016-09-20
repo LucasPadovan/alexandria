@@ -1,7 +1,7 @@
 import React from 'react';
 import { IndexLink, Link } from 'react-router';
 
-import { Navigation } from '../components/navigation.jsx';
+import { Navigation } from './Navigation.jsx';
 
 
 export const Header = () => (
