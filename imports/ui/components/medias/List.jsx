@@ -13,7 +13,7 @@ import {
 /**
  * Components section
  */
-import { Media } from './Media.jsx';
+import Media from './Media.jsx';
 
 /**
  * APIs section
@@ -28,8 +28,13 @@ export class MediaList extends Component {
     this.medias = Medias.find({}, { sort: { name: 1 } }).fetch();
   }
 
+  componentWillMount() {
+    // this.medias = Medias.find({}, { sort: { name: 1 } }).fetch();
+    // debugger;
+  }
+
   renderMedias() {
-    let filteredMedias = this.medias;
+    let filteredMedias = Medias.find({}, { sort: { name: 1 } });
 
     return filteredMedias.map((media) => (
       <Media key={media._id} media={media} currentUser={this.props.currentUser} />

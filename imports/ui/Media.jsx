@@ -31,6 +31,12 @@ export default class Media extends Component {
     };
   }
 
+  toggleChecked() {
+    Medias.update(this.props.media._id, {
+      $set: { checked: !this.props.media.checked },
+    });
+  }
+
   showBatchs() {
     let newState = this.state.batchState ? '' : 'hide';
 
@@ -62,8 +68,10 @@ export default class Media extends Component {
   }
 
   render() {
+    const mediaClassName = this.props.media.checked ? 'checked' : '';
+
     return (
-      <ListGroupItem>
+      <ListGroupItem className={mediaClassName}>
         <Row>
           <Col xs={12} md={12}>
             <h4>
@@ -73,6 +81,9 @@ export default class Media extends Component {
                     <Glyphicon glyph="remove" />
                   </Button>
                 }
+                <Button onClick={this.toggleChecked.bind(this)}>
+                  <Glyphicon glyph="ok" />
+                </Button>
                 <Button onClick={this.showBatchs.bind(this)}>
                   <Glyphicon glyph="arrow-down" />
                 </Button>

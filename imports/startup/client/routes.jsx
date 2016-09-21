@@ -17,7 +17,7 @@ Meteor.startup( () => {
   render (
     <Router history={ browserHistory }>
       <Route path="/" component={ App }>
-        <IndexRoute component= { Index } />
+        <IndexRoute component={ Index } />
         <Route path="/batchs" component={ Batchs } />
         <Route path="/mediacontainers" component={ MediaContainers } />
         <Route path="*" component={ NotFound } />
