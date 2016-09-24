@@ -2,6 +2,6 @@ import React from 'react';
 
 export const Batchs = () => (
   <div>
-    <h3>Batchs</h3>
+    <h2 class="l-pad-top-1">Batchs</h2>
   </div>
 );

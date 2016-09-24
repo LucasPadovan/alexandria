@@ -1,5 +1,5 @@
 import React from 'react';
-import { IndexLink, Link } from 'react-router';
+import { Link } from 'react-router';
 
 /**
  * React-bootstrap section
@@ -15,14 +15,17 @@ import {
 } from 'react-router-bootstrap';
 
 
-// ActiveClassName puede no necesitarse
+// <IndexLink to="/">
+//   <NavItem eventKey={1}>Indice</NavItem>
+// </IndexLink>
+
 export const Navigation = () => (
   <div>
     <Navbar.Collapse>
       <Nav bsStyle="tabs" justified activeKey={2}>
-        <IndexLinkContainer to="/">
-          <NavItem eventKey={1}>Índice</NavItem>
-        </IndexLinkContainer>
+        <LinkContainer to="/medias">
+          <NavItem eventKey={1}>Medias</NavItem>
+        </LinkContainer>
         <LinkContainer to="/mediacontainers">
           <NavItem eventKey={2}>Carpetas</NavItem>
         </LinkContainer>

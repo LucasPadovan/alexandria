@@ -1,7 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
 
 /**
  * React-bootstrap section
@@ -22,22 +20,18 @@ import { Medias } from '../../../api/medias.js';
 
 
 export class MediaList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.medias = Medias.find({}, { sort: { name: 1 } }).fetch();
-  }
-
-  componentWillMount() {
-    // this.medias = Medias.find({}, { sort: { name: 1 } }).fetch();
-    // debugger;
+  componentDidMount() {
+    this.setState({
+      medias: Medias.find({}, { sort: { name: 1 } }).fetch(),
+      currentUser: Meteor.user(),
+    })
   }
 
   renderMedias() {
-    let filteredMedias = Medias.find({}, { sort: { name: 1 } });
+    let filteredMedias = this.state ? this.state.medias : [];
 
     return filteredMedias.map((media) => (
-      <Media key={media._id} media={media} currentUser={this.props.currentUser} />
+      <Media key={media._id} media={media} currentUser={this.state.currentUser} />
     ));
   }
 
