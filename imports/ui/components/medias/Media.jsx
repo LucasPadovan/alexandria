@@ -13,7 +13,7 @@ import {
 /**
  * Components section
  */
-import Batch from '../../Batch.jsx';
+import Batch from './Batch.jsx';
 
  /**
  * APIs section

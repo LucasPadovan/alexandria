@@ -13,7 +13,7 @@ import {
 /**
  * Components section
  */
-import Batch from '../../Batch.jsx';
+import Batch from './Batch.jsx';
 
 /**
  * APIs section
@@ -24,7 +24,7 @@ import { Batchs } from '/imports/api/batchs.js';
 /**
  * Security section
  */
-import { Permissions } from '../../../startup/permissions.js';
+import { Permissions } from '/imports/startup/permissions.js';
 
 // MediaContainer component
 export default class MediaContainer extends Component {
