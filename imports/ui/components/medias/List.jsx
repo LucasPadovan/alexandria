@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 
 /**
@@ -20,26 +21,10 @@ import { Medias } from '../../../api/medias.js';
 
 
 class MediaList extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      currentUser: '',
-      medias: [],
-    };
-  }
-
-  componentDidMount() {
-    this.setState({
-      currentUser: Meteor.user(),
-      medias: Medias.find({}, { sort: { name: 1 } }).fetch(),
-    })
-  }
-
   renderMedias() {
     return (
-      this.state.medias.map((media) => (
-        <Media key={media._id} media={media} currentUser={this.state.currentUser} />
+      this.props.medias.map((media) => (
+        <Media key={media._id} media={media} currentUser={this.props.currentUser} />
       ))
     )
   }
@@ -56,4 +41,10 @@ class MediaList extends React.Component {
   }
 }
 
-export default MediaList;
+export default createContainer(() => {
+    return {
+        currentUser: Meteor.user(),
+        medias: Medias.find({}, { sort: { name: 1 } }).fetch()
+    }
+
+}, MediaList);
