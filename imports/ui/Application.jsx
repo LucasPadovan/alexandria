@@ -9,7 +9,7 @@ import moment from 'moment';
 
 
 /**
- * React section
+ * React-bootstrap section
  */
 import {
   Button,
@@ -36,6 +36,7 @@ import { MediaContainers } from '../api/media_containers.js';
 /**
  * Views section
  */
+// import { Navigation } from './components/navigation.jsx';
 import Media from './Media.jsx';
 import Batch from './Batch.jsx';
 import MediaContainer from './MediaContainer.jsx';
@@ -46,8 +47,9 @@ import AccountsUIWrapper from './AccountsUIWrapper.jsx';
  */
 import { Permissions } from '../startup/permissions.js';
 
-// App component - represents the whole app
-class App extends Component {
+
+// Application component - represents the whole app
+class Application extends Component {
   constructor(props) {
     super(props);
 
@@ -445,7 +447,7 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
+Application.propTypes = {
   medias: PropTypes.array.isRequired,
   batchs: PropTypes.array.isRequired,
   mediaContainers: PropTypes.array.isRequired,
@@ -461,4 +463,4 @@ export default createContainer(() => {
     incompleteCount: Medias.find({ checked: { $ne: true } }).count(),
     currentUser: Meteor.user(),
   };
-}, App);
+}, Application);

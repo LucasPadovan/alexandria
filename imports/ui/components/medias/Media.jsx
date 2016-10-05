@@ -1,10 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-
-import Batch from '../../Batch.jsx';
-
-import { Medias } from '../../../api/medias.js';
-import { Batchs } from '../../../api/batchs.js';
-
 import {
   Button,
   ButtonGroup,
@@ -17,11 +11,22 @@ import {
 } from 'react-bootstrap';
 
 /**
+ * Components section
+ */
+import Batch from './Batch.jsx';
+
+ /**
+ * APIs section
+ */
+import { Medias } from '/imports/api/medias.js';
+import { Batchs } from '/imports/api/batchs.js';
+
+/**
  * Security section
  */
-import { Permissions } from '../startup/permissions.js';
+import { Permissions } from '/imports/startup/permissions.js';
 
-// Media component
+
 export default class Media extends Component {
   constructor(props) {
     super(props);
@@ -29,12 +34,6 @@ export default class Media extends Component {
     this.state = {
       batchState: 'hide'
     };
-  }
-
-  toggleChecked() {
-    Medias.update(this.props.media._id, {
-      $set: { checked: !this.props.media.checked },
-    });
   }
 
   showBatchs() {
@@ -68,10 +67,8 @@ export default class Media extends Component {
   }
 
   render() {
-    const mediaClassName = this.props.media.checked ? 'checked' : '';
-
     return (
-      <ListGroupItem className={mediaClassName}>
+      <ListGroupItem>
         <Row>
           <Col xs={12} md={12}>
             <h4>
@@ -81,9 +78,6 @@ export default class Media extends Component {
                     <Glyphicon glyph="remove" />
                   </Button>
                 }
-                <Button onClick={this.toggleChecked.bind(this)}>
-                  <Glyphicon glyph="ok" />
-                </Button>
                 <Button onClick={this.showBatchs.bind(this)}>
                   <Glyphicon glyph="arrow-down" />
                 </Button>

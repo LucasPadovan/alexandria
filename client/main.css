@@ -79,3 +79,25 @@
 .z-index-2 { z-index: 20; }
 .z-index-3 { z-index: 30; }
 .z-index-4 { z-index: 40; }
+
+.l-top-0 { top: 0; }
+.l-top-1 { top: 10px;}
+.l-top-2 { top: 20px;}
+.l-top-3 { top: 30px;}
+
+.header {
+  background-color: #12131f;
+  color: white;
+  padding: 10px 25px 0 25px;
+}
+.header h1 > small {
+  padding-left: 10px;
+}
+.header h1 {
+  display: inline-block;
+}
+
+.header #login-dropdown-list {
+  position: relative;
+  top: -10px;
+}
