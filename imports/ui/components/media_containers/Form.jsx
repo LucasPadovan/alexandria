@@ -2,11 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
-
-
-/**
- * React-bootstrap section
- */
 import {
   Button,
   Col,
@@ -30,12 +25,12 @@ import MediaContainer from './MediaContainer.jsx';
 /**
  * APIs section
  */
-import { MediaContainers } from '../../../api/media_containers.js';
+import { MediaContainers } from '/imports/api/media_containers.js';
 
 /**
  * Security section
  */
-import { Permissions } from '../../../startup/permissions.js';
+import { Permissions } from '/imports/startup/permissions.js';
 
 
 class MediaContainerForm extends Component {

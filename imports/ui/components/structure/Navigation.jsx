@@ -1,9 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-
-/**
- * React-bootstrap section
- */
 import {
   Nav,
   Navbar,

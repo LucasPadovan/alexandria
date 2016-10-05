@@ -1,10 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-
-import Batch from '../../Batch.jsx';
-
-import { Medias } from '../../../api/medias.js';
-import { Batchs } from '../../../api/batchs.js';
-
 import {
   Button,
   ButtonGroup,
@@ -17,11 +11,22 @@ import {
 } from 'react-bootstrap';
 
 /**
+ * Components section
+ */
+import Batch from '../../Batch.jsx';
+
+ /**
+ * APIs section
+ */
+import { Medias } from '/imports/api/medias.js';
+import { Batchs } from '/imports/api/batchs.js';
+
+/**
  * Security section
  */
-import { Permissions } from '../../../startup/permissions.js';
+import { Permissions } from '/imports/startup/permissions.js';
 
-// Media component
+
 export default class Media extends Component {
   constructor(props) {
     super(props);

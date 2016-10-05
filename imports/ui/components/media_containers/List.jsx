@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
-
-/**
- * React-bootstrap section
- */
 import {
   ListGroup
 } from 'react-bootstrap';
@@ -17,7 +13,7 @@ import MediaContainer from './MediaContainer.jsx';
 /**
  * APIs section
  */
-import { MediaContainers } from '../../../api/media_containers.js';
+import { MediaContainers } from '/imports/api/media_containers.js';
 
 
 class MediaContainerList extends React.Component {

@@ -1,10 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-
-import Batch from '../../Batch.jsx';
-
-import { MediaContainers } from '../../../api/media_containers.js';
-import { Batchs } from '../../../api/batchs.js';
-
 import {
   Button,
   ButtonGroup,
@@ -15,6 +9,17 @@ import {
   ListGroupItem,
   Row,
 } from 'react-bootstrap';
+
+/**
+ * Components section
+ */
+import Batch from '../../Batch.jsx';
+
+/**
+ * APIs section
+ */
+import { MediaContainers } from '/imports/api/media_containers.js';
+import { Batchs } from '/imports/api/batchs.js';
 
 /**
  * Security section

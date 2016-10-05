@@ -2,15 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
-
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-
-
-/**
- * React-bootstrap section
- */
 import {
   Button,
   Col,
@@ -34,18 +28,17 @@ import Media from './Media.jsx';
 /**
  * APIs section
  */
-import { Medias } from '../../../api/medias.js';
+import { Medias } from '/imports/api/medias.js';
 
 /**
  * Security section
  */
-import { Permissions } from '../../../startup/permissions.js';
+import { Permissions } from '/imports/startup/permissions.js';
 
 
 class MediaForm extends Component {
   componentDidMount() {
     this.handleDateChange(this.props.startDate);
-    debugger
   }
 
   handleMediaSubmit(event) {
@@ -129,7 +122,7 @@ class MediaForm extends Component {
                className="form-control"
                onChange={this.handleDateChange.bind(this)}
                ref="mediaDateInput"
-               selected={this.state.startDate}
+               selected={this.props.startDate}
              />
            </FormGroup>
            <Button type="submit">Crear media</Button>
