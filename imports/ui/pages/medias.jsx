@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { MediaForm } from '../components/medias/Form.jsx';
-import { MediaList } from '../components/medias/List.jsx';
+import MediaList from '../components/medias/List.jsx';
 
 
 export const Medias = () => (

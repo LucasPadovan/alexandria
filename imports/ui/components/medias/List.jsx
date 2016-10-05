@@ -19,20 +19,29 @@ import Media from './Media.jsx';
 import { Medias } from '../../../api/medias.js';
 
 
-export class MediaList extends Component {
+class MediaList extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      currentUser: '',
+      medias: [],
+    };
+  }
+
   componentDidMount() {
     this.setState({
-      medias: Medias.find({}, { sort: { name: 1 } }).fetch(),
       currentUser: Meteor.user(),
+      medias: Medias.find({}, { sort: { name: 1 } }).fetch(),
     })
   }
 
   renderMedias() {
-    let filteredMedias = this.state ? this.state.medias : [];
-
-    return filteredMedias.map((media) => (
-      <Media key={media._id} media={media} currentUser={this.state.currentUser} />
-    ));
+    return (
+      this.state.medias.map((media) => (
+        <Media key={media._id} media={media} currentUser={this.state.currentUser} />
+      ))
+    )
   }
 
 
@@ -46,3 +55,5 @@ export class MediaList extends Component {
     );
   }
 }
+
+export default MediaList;

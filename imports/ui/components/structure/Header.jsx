@@ -6,11 +6,16 @@ import AccountsUIWrapper from '../../AccountsUIWrapper.jsx';
 
 export const Header = () => (
   <header className="header">
-    <h1>
-      La Biblioteca de Alexandría
-      <small>Otaku</small>
-      <AccountsUIWrapper />
-    </h1>
+    <div>
+      <h1>
+        La Biblioteca de Alexandría
+        <small>Otaku</small>
+      </h1>
+
+      <span className="pull-right">
+        <AccountsUIWrapper />
+      </span>
+    </div>
 
     <Navigation />
   </header>
