@@ -56,10 +56,10 @@ export class MediaForm extends Component {
     // Find the text field via the React ref. TODO: create a loop for this.
     const mediaNameInput = ReactDOM.findDOMNode(this.refs.mediaNameInput),
           mediaTypeInput = ReactDOM.findDOMNode(this.refs.mediaTypeInput),
-          name = mediaNameInput.value.trim(),
-          mediaType = mediaTypeInput.value.trim(),
-          date = this.state.startDate.format('DD/MM/YYYY'),
-          newMedia = {
+          name           = mediaNameInput.value.trim(),
+          mediaType      = mediaTypeInput.value.trim(),
+          date           = this.state.startDate.format('DD/MM/YYYY'),
+          newMedia       = {
             name,
             mediaType,
             date,
@@ -67,7 +67,7 @@ export class MediaForm extends Component {
             owner: Meteor.userId(),             // _id of logged in user
             username: Meteor.user().username,   // username of logged in user
           },
-          schema = Medias.schema,
+          schema         = Medias.schema,
           isAValidObject = schema.namedContext("newMedia").validate(newMedia);
 
     if (isAValidObject) {
