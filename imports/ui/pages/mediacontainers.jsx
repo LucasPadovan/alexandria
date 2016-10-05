@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MediaContainerForm } from '../components/media_containers/Form.jsx';
+import MediaContainerForm from '../components/media_containers/Form.jsx';
 import MediaContainerList from '../components/media_containers/List.jsx';
 
 

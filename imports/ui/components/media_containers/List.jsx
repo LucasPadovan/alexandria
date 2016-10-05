@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 
 /**
@@ -20,26 +21,10 @@ import { MediaContainers } from '../../../api/media_containers.js';
 
 
 class MediaContainerList extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      currentUser: '',
-      mediaContainers: [],
-    };
-  }
-
-  componentDidMount() {
-    this.setState({
-      currentUser: Meteor.user(),
-      mediaContainers: MediaContainers.find({}, { sort: { name: 1 } }).fetch(),
-    })
-  }
-
   renderMediaContainers() {
     return (
-      this.state.mediaContainers.map((mediaContainer) => (
-        <MediaContainer key={mediaContainer._id} mediaContainer={mediaContainer} currentUser={this.state.currentUser} />
+      this.props.mediaContainers.map((mediaContainer) => (
+        <MediaContainer key={mediaContainer._id} mediaContainer={mediaContainer} currentUser={this.props.currentUser} />
       ))
     )
   }
@@ -56,4 +41,11 @@ class MediaContainerList extends React.Component {
   }
 }
 
-export default MediaContainerList;
+
+export default createContainer(() => {
+    return {
+        currentUser: Meteor.user(),
+        mediaContainers: MediaContainers.find({}, { sort: { name: 1 } }).fetch()
+    }
+
+}, MediaContainerList);

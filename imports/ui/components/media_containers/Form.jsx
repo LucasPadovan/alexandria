@@ -1,11 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
-
-import 'react-datepicker/dist/react-datepicker.css';
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
 
 
 /**
@@ -42,14 +38,7 @@ import { MediaContainers } from '../../../api/media_containers.js';
 import { Permissions } from '../../../startup/permissions.js';
 
 
-export class MediaContainerForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.props.currentUser = Meteor.user();
-    this.props.startDate = moment();
-  }
-
+class MediaContainerForm extends Component {
   handleMediaContainerSubmit(event) {
     event.preventDefault();
 
@@ -82,18 +71,11 @@ export class MediaContainerForm extends Component {
     }
   }
 
-  handleDateChange(date) {
-    this.setState({
-      startDate: date
-    });
-  }
-
   /**
    * Security methods
    */
   userCanEdit() {
-    // return this.state.currentUser && Permissions.manage.includes(this.state.currentUser.username);
-    return true;
+    return this.props.currentUser && Permissions.manage.includes(this.props.currentUser.username);
   }
 
   renderMediaContainerForm() {
@@ -147,3 +129,10 @@ export class MediaContainerForm extends Component {
     );
   }
 }
+
+export default createContainer(() => {
+    return {
+        currentUser: Meteor.user()
+    }
+
+}, MediaContainerForm);

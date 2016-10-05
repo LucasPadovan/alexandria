@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
@@ -42,12 +42,10 @@ import { Medias } from '../../../api/medias.js';
 import { Permissions } from '../../../startup/permissions.js';
 
 
-export class MediaForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.props.currentUser = Meteor.user();
-    this.props.startDate = moment();
+class MediaForm extends Component {
+  componentDidMount() {
+    this.handleDateChange(this.props.startDate);
+    debugger
   }
 
   handleMediaSubmit(event) {
@@ -91,8 +89,7 @@ export class MediaForm extends Component {
    * Security methods
    */
   userCanEdit() {
-    // return this.state.currentUser && Permissions.manage.includes(this.state.currentUser.username);
-    return true;
+    return this.props.currentUser && Permissions.manage.includes(this.props.currentUser.username);
   }
 
   renderMediaForm() {
@@ -132,7 +129,7 @@ export class MediaForm extends Component {
                className="form-control"
                onChange={this.handleDateChange.bind(this)}
                ref="mediaDateInput"
-               selected={this.props.startDate}
+               selected={this.state.startDate}
              />
            </FormGroup>
            <Button type="submit">Crear media</Button>
@@ -152,3 +149,11 @@ export class MediaForm extends Component {
     );
   }
 }
+
+export default createContainer(() => {
+    return {
+        currentUser: Meteor.user(),
+        startDate: moment(),
+    }
+
+}, MediaForm);
