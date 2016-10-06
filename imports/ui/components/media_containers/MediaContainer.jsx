@@ -26,7 +26,7 @@ import { Batchs } from '/imports/api/batchs.js';
  */
 import { Permissions } from '/imports/startup/permissions.js';
 
-// MediaContainer component
+
 export default class MediaContainer extends Component {
   constructor(props) {
     super(props);
