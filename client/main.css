@@ -97,7 +97,8 @@
   padding: 10px 25px 0 25px;
 }
 .header h1 > small {
-  color: green;
+  color: white;
+  font-style: italic;
   padding-left: 10px;
 }
 .header h1 {

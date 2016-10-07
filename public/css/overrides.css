@@ -15,7 +15,9 @@
 }
 
 .nav-tabs.nav-justified > li > a {
+  background-color: rgba(70, 200, 70, 0.7);
+  border-radius: 4px 4px 0 0;
+  color: white;
   font-size: 15px;
   font-weight: bolder;
-  color: green;
 }
