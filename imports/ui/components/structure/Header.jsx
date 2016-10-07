@@ -3,6 +3,11 @@ import { IndexLink, Link } from 'react-router';
 
 import { Navigation } from './Navigation.jsx';
 import AccountsUIWrapper from '../../AccountsUIWrapper.jsx';
+/**
+ * React-bootstrap section
+ */
+import { Grid } from 'react-bootstrap';
+
 
 export const Header = () => (
   <header className="header">
@@ -12,11 +17,12 @@ export const Header = () => (
         <small>Otaku</small>
       </h1>
 
-      <span className="pull-right">
+      <div className="accounts-ui">
         <AccountsUIWrapper />
-      </span>
+      </div>
     </div>
-
-    <Navigation />
+    <Grid>
+      <Navigation />
+    </Grid>
   </header>
 );

@@ -86,11 +86,18 @@
 .l-top-3 { top: 30px;}
 
 .header {
-  background-color: #12131f;
+  background: repeating-linear-gradient(
+    -55deg,
+    #12131f,
+    #12131f 10px,
+    #333333 10px,
+    #333333 20px
+  );
   color: white;
   padding: 10px 25px 0 25px;
 }
 .header h1 > small {
+  color: green;
   padding-left: 10px;
 }
 .header h1 {
