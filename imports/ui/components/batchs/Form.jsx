@@ -25,6 +25,7 @@ import Batch from './Batch.jsx';
 /**
  * APIs section
  */
+import { Batchs } from '/imports/api/batchs.js';
 import { Medias } from '/imports/api/medias.js';
 import { MediaContainers } from '/imports/api/media_containers.js';
 
